@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: trident-use/anf-prep.html 
+keywords: trident backend, azure netapp files, smb volumes, smb, windows, active directory, csi proxy, aks, managed identities 
+summary: 在配置Azure NetApp Files 后端之前、您需要确保满足以下要求。 
+---
+= 准备配置Azure NetApp Files 后端
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在配置Azure NetApp Files 后端之前、您需要确保满足以下要求。
+
+
+
+== NFS和SMB卷的前提条件
+
+如果您是首次使用Azure NetApp Files 或在新位置使用、则需要进行一些初始配置来设置Azure NetApp Files 并创建NFS卷。请参阅 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes["Azure：设置Azure NetApp Files 并创建NFS卷"^]。
+
+要配置和使用 https://azure.microsoft.com/en-us/services/netapp/["Azure NetApp Files"^]后端、您需要满足以下条件：
+
+[NOTE]
+====
+*  `clientID` `location`在AKS集群上使用受管标识时，`subscriptionID`、、 `tenantID`和 `clientSecret`是可选的。
+* `tenantID` `clientID`在AKS集群上使用云标识时、和 `clientSecret`是可选的。
+
+
+====
+* 一个容量池。请参阅 link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["Microsoft：为Azure NetApp Files 创建容量池"^]。
+* 委派给Azure NetApp Files 的子网。请参阅 link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["Microsoft：将子网委派给Azure NetApp Files"^]。
+* `subscriptionID`通过启用了Azure NetApp Files的Azure订阅。
+* `tenantID` `clientID`和 `clientSecret` link:https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal["应用程序注册"^]中具有足够权限的Azure NetApp Files服务。应用程序注册应使用以下任一项：
++
+** 所有者或贡献者角色link:https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles["由Azure预定义"^]。
+** link:https://learn.microsoft.com/en-us/azure/role-based-access-control/custom-roles-portal["自定义贡献者角色"]订阅级别(`assignableScopes`的)具有以下权限，这些权限仅限于Trident所需的权限。创建自定义角色后，link:https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal["使用Azure门户分配角色"^]。
++
+.自定义贡献者角色
+[%collapsible]
+====
+[source, JSON]
+----
+{
+  "id": "/subscriptions/<subscription-id>/providers/Microsoft.Authorization/roleDefinitions/<role-definition-id>",
+  "properties": {
+    "roleName": "custom-role-with-limited-perms",
+    "description": "custom role providing limited permissions",
+    "assignableScopes": [
+      "/subscriptions/<subscription-id>"
+    ],
+    "permissions": [
+      {
+        "actions": [
+          "Microsoft.NetApp/netAppAccounts/capacityPools/read",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/write",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/read",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/write",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/delete",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots/read",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots/write",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots/delete",
+          "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/MountTargets/read",
+          "Microsoft.Network/virtualNetworks/read",
+          "Microsoft.Network/virtualNetworks/subnets/read",
+          "Microsoft.Features/featureProviders/subscriptionFeatureRegistrations/read",
+          "Microsoft.Features/featureProviders/subscriptionFeatureRegistrations/write",
+          "Microsoft.Features/featureProviders/subscriptionFeatureRegistrations/delete",
+          "Microsoft.Features/features/read",
+          "Microsoft.Features/operations/read",
+          "Microsoft.Features/providers/features/read",
+          "Microsoft.Features/providers/features/register/action",
+          "Microsoft.Features/providers/features/unregister/action",
+          "Microsoft.Features/subscriptionFeatureRegistrations/read"
+        ],
+        "notActions": [],
+        "dataActions": [],
+        "notDataActions": []
+      }
+    ]
+  }
+}
+----
+====
+
+
+* 至少包含一个 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["委派子网"^]的Azure `location`。自Trident 22.01起、 `location`参数是后端配置文件顶层的必填字段。在虚拟池中指定的位置值将被忽略。
+* 要使用 `Cloud Identity`，请从 https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities["用户分配的托管身份"^]获取 `client ID`并在中指定该ID `azure.workload.identity/client-id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx`。
+
+
+
+
+== SMB卷的其他要求
+
+要创建SMB卷、您必须具有：
+
+* 已配置Active Directory并连接到Azure NetApp Files。请参阅 link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/create-active-directory-connections["Microsoft：创建和管理Azure NetApp Files 的Active Directory连接"^]。
+* 一个Kubernetes集群、其中包含一个Linux控制器节点以及至少一个运行Windows Server 2022的Windows工作节点。Trident仅支持挂载到Windows节点上运行的Pod的SMB卷。
+* 至少一个包含Active Directory凭据的Trident密钥、以便Azure NetApp Files可以向Active Directory进行身份验证。生成密钥 `smbcreds`：
++
+[listing]
+----
+kubectl create secret generic smbcreds --from-literal username=user --from-literal password='password'
+----
+* 配置为Windows服务的CSI代理。要配置 `csi-proxy`，请参阅link:https://github.com/kubernetes-csi/csi-proxy["GitHub：CSI代理"^]或了解在Windows上运行的Kuborneteslink:https://github.com/Azure/aks-engine/blob/master/docs/topics/csi-proxy-windows.md["GitHub：适用于Windows的CSI代理"^]节点。
+

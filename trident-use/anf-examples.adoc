@@ -1,0 +1,472 @@
+---
+sidebar: sidebar 
+permalink: trident-use/anf-examples.html 
+keywords: trident backend, azure netapp files, smb volumes, smb, windows 
+summary: 了解适用于Azure NetApp Files的NFS和SMB后端配置选项并查看配置示例。 
+---
+= Azure NetApp Files 后端配置选项和示例
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解适用于Azure NetApp Files的NFS和SMB后端配置选项并查看配置示例。
+
+
+
+== 后端配置选项
+
+Trident可使用您的后端配置(子网、虚拟网络、服务级别和位置)在请求位置可用的容量池上创建Azure NetApp Files卷、并与请求的服务级别和子网匹配。
+
+
+NOTE: Trident不支持手动QoS容量池。
+
+Azure NetApp Files后端提供了这些配置选项。
+
+[cols="3"]
+|===
+| 参数 | 说明 | 默认 
+
+
+| `version` |  | 始终为 1 
+
+
+| `storageDriverName` | 存储驱动程序的名称 | "Azure-netapp-files" 
+
+
+| `backendName` | 自定义名称或存储后端 | 驱动程序名称 + "_" + 随机字符 
+
+
+| `subscriptionID` | 在AKS集群上启用托管标识时、Azure订阅中的订阅ID为可选。 |  
+
+
+| `tenantID` | 在AKS集群上使用托管身份或云身份时、应用程序注册中的租户ID为可选。 |  
+
+
+| `clientID` | 在AKS集群上使用托管身份或云身份时、应用程序注册中的客户端ID为可选。 |  
+
+
+| `clientSecret` | 在AKS集群上使用托管身份或云身份时、应用程序注册中的客户端密钥可选。 |  
+
+
+| `serviceLevel` |  `Premium`或 `Ultra`之一 `Standard` | "" （随机） 
+
+
+| `location` | 要在其中创建新卷的Azure位置的名称在AKS集群上启用受管标识时为可选。 |  
+
+
+| `resourceGroups` | 用于筛选已发现资源的资源组列表 | "[]" （无筛选器） 
+
+
+| `netappAccounts` | 用于筛选已发现资源的 NetApp 帐户列表 | "[]" （无筛选器） 
+
+
+| `capacityPools` | 用于筛选已发现资源的容量池列表 | "[]" （无筛选器，随机） 
+
+
+| `virtualNetwork` | 具有委派子网的虚拟网络的名称 | "" 
+
+
+| `subnet` | 委派给的子网的名称 `Microsoft.Netapp/volumes` | "" 
+
+
+| `networkFeatures` | 一个卷的一组vNet功能，可以是 `Basic`或 `Standard`。网络功能并非在所有地区都可用、可能需要在订阅中启用。如果指定 `networkFeatures`未启用此功能的时间、则会导致卷配置失败。 | "" 
+
+
+| `nfsMountOptions` | 精细控制 NFS 挂载选项。SMB卷已忽略。要使用NFS 4.1挂载卷、请在逗号分隔挂载选项列表中包含 `nfsvers=4`以选择NFS v4.1。存储类定义中设置的挂载选项会覆盖后端配置中设置的挂载选项。 | "nfsvers=3" 
+
+
+| `limitVolumeSize` | 如果请求的卷大小超过此值，则配置失败 | "" （默认情况下不强制实施） 
+
+
+| `debugTraceFlags` | 故障排除时要使用的调试标志。例如， `\{"api": false, "method": true, "discovery": true}`。除非您正在进行故障排除并需要详细的日志转储，否则请勿使用此功能。 | 空 
+
+
+| `nasType` | 配置NFS或SMB卷创建。选项为 `nfs`、 `smb`或null。默认情况下、将设置为空会将NFS卷设置为空。 | `nfs` 
+
+
+| `supportedTopologies` | 表示此后端支持的区域和区域的列表。有关详细信息，请参阅 link:../trident-use/csi-topology.html["使用 CSI 拓扑"]。 |  
+|===
+
+NOTE: 有关网络功能的详细信息，请参阅link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/configure-network-features["配置Azure NetApp Files 卷的网络功能"^]。
+
+
+
+=== 所需权限和资源
+
+如果在创建PVC时收到"No Capacity Pools"(未找到容量池)错误、则您的应用程序注册可能没有关联的所需权限和资源(子网、虚拟网络、容量池)。如果启用了调试、Trident将记录在创建后端时发现的Azure资源。验证是否正在使用适当的角色。
+
+ `netappAccounts` `capacityPools` `virtualNetwork`和 `subnet`的值 `resourceGroups`可以使用短名称或完全限定名称来指定。在大多数情况下、建议使用完全限定名称、因为短名称可以与多个同名资源匹配。
+
+ `resourceGroups` `netappAccounts`和 `capacityPools`值是筛选器，用于将发现的资源集限制为此存储后端可用的资源集，并且可以任意组合方式指定。完全限定名称采用以下格式：
+
+[cols="2"]
+|===
+| 键入 | 格式 
+
+
+| Resource group | < 资源组 > 
+
+
+| NetApp 帐户 | < 资源组 >/< NetApp 帐户 > 
+
+
+| 容量池 | < 资源组 >/< NetApp 帐户 >/< 容量池 > 
+
+
+| 虚拟网络 | < 资源组 >/< 虚拟网络 > 
+
+
+| 子网 | < 资源组 >/< 虚拟网络 >/< 子网 > 
+|===
+
+
+=== 卷配置
+
+您可以通过在配置文件的特殊部分中指定以下选项来控制默认卷配置。有关详细信息、请参见 <<示例配置>> 。
+
+[cols=",,"]
+|===
+| 参数 | 说明 | 默认 
+
+
+| `exportRule` | 新卷的导出规则。
+`exportRule`必须是IPv4地址或IPv4子网的任意组合的逗号分隔列表(采用CIDR表示法)。SMB卷已忽略。 | "0.0.0.0/0 
+
+
+| `snapshotDir` | 控制 .snapshot 目录的可见性 | 对于NFSv4、为"TRUE"；对于NFSv3、为"false" 
+
+
+| `size` | 新卷的默认大小 | "100G" 
+
+
+| `unixPermissions` | 新卷的UNIX权限(4个八进制数字)。SMB卷已忽略。 | "" （预览功能，需要在订阅中列入白名单） 
+|===
+
+
+== 示例配置
+
+以下示例显示了将大多数参数保留为默认值的基本配置。这是定义后端的最简单方法。
+
+.最低配置
+[%collapsible]
+====
+这是绝对的最低后端配置。使用此配置时、Trident会发现在所配置位置委派给Azure NetApp Files的所有NetApp帐户、容量池和子网、并随机将新卷放置在其中一个池和子网上。由于 `nasType` 省略了、因此会 `nfs` 应用默认设置、后端将为NFS卷配置。
+
+当您刚刚开始使用Azure NetApp Files并尝试某些操作时、此配置是理想的选择、但实际上、您需要为所配置的卷提供额外的范围界定。
+
+[source, yaml]
+----
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-anf-1
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: azure-netapp-files
+  subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+  tenantID: 68e4f836-edc1-fake-bff9-b2d865ee56cf
+  clientID: dd043f63-bf8e-fake-8076-8de91e5713aa
+  clientSecret: SECRET
+  location: eastus
+----
+====
+.AKS的受管身份
+[%collapsible]
+====
+此后端配置会省略 `subscriptionID`、 `tenantID`、 `clientID`和 `clientSecret`，它们在使用受管身份时是可选的。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-anf-1
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: azure-netapp-files
+  capacityPools:
+    - ultra-pool
+  resourceGroups:
+    - aks-ami-eastus-rg
+  netappAccounts:
+    - smb-na
+  virtualNetwork: eastus-prod-vnet
+  subnet: eastus-anf-subnet
+----
+====
+.适用于AKS的云身份
+[%collapsible]
+====
+此后端配置会省略 `tenantID`、 `clientID`和 `clientSecret`，它们在使用云标识时是可选的。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-anf-1
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: azure-netapp-files
+  capacityPools:
+    - ultra-pool
+  resourceGroups:
+    - aks-ami-eastus-rg
+  netappAccounts:
+    - smb-na
+  virtualNetwork: eastus-prod-vnet
+  subnet: eastus-anf-subnet
+  location: eastus
+  subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+----
+====
+.使用容量池筛选器的特定服务级别配置
+[%collapsible]
+====
+此后端配置会将卷放置在Azure的 `eastus`容量池中 `Ultra`。Trident会自动发现该位置委派给Azure NetApp Files的所有子网、并随机在其中一个子网上放置一个新卷。
+
+[source, yaml]
+----
+---
+version: 1
+storageDriverName: azure-netapp-files
+subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+tenantID: 68e4f836-edc1-fake-bff9-b2d865ee56cf
+clientID: dd043f63-bf8e-fake-8076-8de91e5713aa
+clientSecret: SECRET
+location: eastus
+serviceLevel: Ultra
+capacityPools:
+  - application-group-1/account-1/ultra-1
+  - application-group-1/account-1/ultra-2
+----
+====
+.高级配置
+[%collapsible]
+====
+此后端配置进一步将卷放置范围缩小为一个子网，并修改了某些卷配置默认值。
+
+[source, yaml]
+----
+---
+version: 1
+storageDriverName: azure-netapp-files
+subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+tenantID: 68e4f836-edc1-fake-bff9-b2d865ee56cf
+clientID: dd043f63-bf8e-fake-8076-8de91e5713aa
+clientSecret: SECRET
+location: eastus
+serviceLevel: Ultra
+capacityPools:
+  - application-group-1/account-1/ultra-1
+  - application-group-1/account-1/ultra-2
+virtualNetwork: my-virtual-network
+subnet: my-subnet
+networkFeatures: Standard
+nfsMountOptions: vers=3,proto=tcp,timeo=600
+limitVolumeSize: 500Gi
+defaults:
+  exportRule: 10.0.0.0/24,10.0.1.0/24,10.0.2.100
+  snapshotDir: "true"
+  size: 200Gi
+  unixPermissions: "0777"
+
+----
+====
+.虚拟池配置
+[%collapsible]
+====
+此后端配置可在一个文件中定义多个存储池。如果您有多个容量池支持不同的服务级别，并且您希望在 Kubernetes 中创建表示这些服务级别的存储类，则此功能非常有用。虚拟池标签用于根据区分池 `performance`。
+
+[source, yaml]
+----
+---
+version: 1
+storageDriverName: azure-netapp-files
+subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+tenantID: 68e4f836-edc1-fake-bff9-b2d865ee56cf
+clientID: dd043f63-bf8e-fake-8076-8de91e5713aa
+clientSecret: SECRET
+location: eastus
+resourceGroups:
+  - application-group-1
+networkFeatures: Basic
+nfsMountOptions: vers=3,proto=tcp,timeo=600
+labels:
+  cloud: azure
+storage:
+  - labels:
+      performance: gold
+    serviceLevel: Ultra
+    capacityPools:
+      - ultra-1
+      - ultra-2
+    networkFeatures: Standard
+  - labels:
+      performance: silver
+    serviceLevel: Premium
+    capacityPools:
+      - premium-1
+  - labels:
+      performance: bronze
+    serviceLevel: Standard
+    capacityPools:
+      - standard-1
+      - standard-2
+
+----
+====
+.支持的拓扑配置
+[%collapsible]
+====
+Trident可以根据区域和可用性区域为工作负载配置卷。 `supportedTopologies`此后端配置中的块用于提供每个后端的区域和分区列表。此处指定的区域和分区值必须与每个Kubnetes集群节点上标签中的区域和分区值匹配。这些区域和分区表示可在存储类中提供的允许值列表。对于包含后端提供的部分区域和区域的存储类、Trident会在上述区域和区域中创建卷。有关详细信息，请参阅 link:../trident-use/csi-topology.html["使用 CSI 拓扑"]。
+
+[source, yaml]
+----
+---
+version: 1
+storageDriverName: azure-netapp-files
+subscriptionID: 9f87c765-4774-fake-ae98-a721add45451
+tenantID: 68e4f836-edc1-fake-bff9-b2d865ee56cf
+clientID: dd043f63-bf8e-fake-8076-8de91e5713aa
+clientSecret: SECRET
+location: eastus
+serviceLevel: Ultra
+capacityPools:
+  - application-group-1/account-1/ultra-1
+  - application-group-1/account-1/ultra-2
+supportedTopologies:
+  - topology.kubernetes.io/region: eastus
+    topology.kubernetes.io/zone: eastus-1
+  - topology.kubernetes.io/region: eastus
+    topology.kubernetes.io/zone: eastus-2
+----
+====
+
+
+== 存储类定义
+
+以下 `StorageClass`定义涉及上述存储池。
+
+
+
+=== 使用字段的示例定义 `parameter.selector`
+
+使用、 `parameter.selector`您可以为每个用于托管卷的虚拟池指定 `StorageClass`。卷将在选定池中定义各个方面。
+
+[source, yaml]
+----
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gold
+provisioner: csi.trident.netapp.io
+parameters:
+  selector: performance=gold
+allowVolumeExpansion: true
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: silver
+provisioner: csi.trident.netapp.io
+parameters:
+  selector: performance=silver
+allowVolumeExpansion: true
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: bronze
+provisioner: csi.trident.netapp.io
+parameters:
+  selector: performance=bronze
+allowVolumeExpansion: true
+----
+
+
+=== SMB卷的示例定义
+
+使用 `nasType`、 `node-stage-secret-name`和 `node-stage-secret-namespace`，您可以指定SMB卷并提供所需的Active Directory凭据。
+
+.默认命名空间上的基本配置
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: anf-sc-smb
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "azure-netapp-files"
+  trident.netapp.io/nasType: "smb"
+  csi.storage.k8s.io/node-stage-secret-name: "smbcreds"
+  csi.storage.k8s.io/node-stage-secret-namespace: "default"
+----
+====
+.每个命名空间使用不同的密钥
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: anf-sc-smb
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "azure-netapp-files"
+  trident.netapp.io/nasType: "smb"
+  csi.storage.k8s.io/node-stage-secret-name: "smbcreds"
+  csi.storage.k8s.io/node-stage-secret-namespace: ${pvc.namespace}
+----
+====
+.每个卷使用不同的密钥
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: anf-sc-smb
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "azure-netapp-files"
+  trident.netapp.io/nasType: "smb"
+  csi.storage.k8s.io/node-stage-secret-name: ${pvc.name}
+  csi.storage.k8s.io/node-stage-secret-namespace: ${pvc.namespace}
+----
+====
+
+NOTE: `nasType: smb`支持SMB卷的池的筛选器。 `nasType: nfs`或 `nasType: null`筛选器。
+
+
+
+== 创建后端
+
+创建后端配置文件后，运行以下命令：
+
+[listing]
+----
+tridentctl create backend -f <backend-file>
+----
+如果后端创建失败，则后端配置出现问题。您可以运行以下命令来查看日志以确定发生原因：
+
+[listing]
+----
+tridentctl logs
+----
+确定并更正配置文件中的问题后，您可以再次运行 create 命令。

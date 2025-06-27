@@ -1,0 +1,100 @@
+---
+sidebar: sidebar 
+permalink: trident-use/manage-stor-class.html 
+keywords: storage class, manage storage class, storage classes, kubernetes storage classes 
+summary: 您可以查看现有存储类、设置默认存储类、确定存储类后端以及删除存储类。 
+---
+= 管理存储类
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以查看现有存储类、设置默认存储类、确定存储类后端以及删除存储类。
+
+
+
+== 查看现有存储类
+
+* 要查看现有 Kubernetes 存储类，请运行以下命令：
+
+
+[listing]
+----
+kubectl get storageclass
+----
+* 要查看 Kubernetes 存储类详细信息，请运行以下命令：
+
+
+[listing]
+----
+kubectl get storageclass <storage-class> -o json
+----
+* 要查看Trident的同步存储类、请运行以下命令：
+
+
+[listing]
+----
+tridentctl get storageclass
+----
+* 要查看Trident的已同步存储类详细信息、请运行以下命令：
+
+
+[listing]
+----
+tridentctl get storageclass <storage-class> -o json
+----
+
+
+== 设置默认存储类
+
+Kubernetes 1.6 增加了设置默认存储类的功能。如果用户未在永久性卷声明（ PVC ）中指定永久性卷，则此存储类将用于配置永久性卷。
+
+* 通过在存储类定义中将标注设置为true来定义默认存储类 `storageclass.kubernetes.io/is-default-class`。根据规范，任何其他值或标注不存在均视为 false 。
+* 您可以使用以下命令将现有存储类配置为默认存储类：
+
+
+[listing]
+----
+kubectl patch storageclass <storage-class-name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+----
+* 同样，您也可以使用以下命令删除默认存储类标注：
+
+
+[listing]
+----
+kubectl patch storageclass <storage-class-name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+----
+Trident 安装程序包中也有包含此标注的示例。
+
+
+NOTE: 集群中一次只能有一个默认存储类。Kubernetes 在技术上不会阻止您拥有多个存储类，但其行为就像根本没有默认存储类一样。
+
+
+
+== 确定存储类的后端
+
+以下是您可以使用为Trident后端对象输出的JSON回答的问题示例 `tridentctl`。这将使用 `jq`实用程序、您可能需要先安装该实用程序。
+
+[listing]
+----
+tridentctl get storageclass -o json | jq  '[.items[] | {storageClass: .Config.name, backends: [.storage]|unique}]'
+----
+
+
+== 删除存储类
+
+要从 Kubernetes 中删除存储类，请运行以下命令：
+
+[listing]
+----
+kubectl delete storageclass <storage-class>
+----
+`<storage-class>`应替换为您的存储类。
+
+通过此存储类创建的任何永久性卷将保持不变、Trident将继续对其进行管理。
+
+
+NOTE: Trident会对其创建的卷强制使用空白 `fsType`。对于iSCSI后端、建议在StorageClass中强制实施 `parameters.fsType`。您应删除现有StorageClasses、然后使用指定的重新创建它们 `parameters.fsType`。

@@ -1,0 +1,262 @@
+---
+sidebar: sidebar 
+permalink: trident-get-started/kubernetes-deploy-helm.html 
+keywords: deploy, Trident, operator, helm, helm chart, configuration, values, standard, registry 
+summary: 您可以使用Helm部署Trident操作员并安装Trident。此过程适用于Trident所需容器映像未存储在私有注册表中的安装。 
+---
+= 使用Helm部署Trident操作员(标准模式)
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用Helm部署Trident操作员并安装Trident。此过程适用于Trident所需容器映像未存储在私有注册表中的安装。如果您有私有映像注册表，请使用link:kubernetes-deploy-helm-mirror.html["脱机部署过程"]。
+
+
+
+== 有关Trident 25.02的重要信息
+
+*您必须阅读以下有关Trident的重要信息。*
+
+.<strong>与Trident </strong>相关的信息
+[%collapsible%open]
+====
+[]
+=====
+* 现在、在Trident中支持Kubnetes 1.32。在升级Kubernetes之前升级Trident。
+* Trident会严格强制在SAN环境中使用多路径配置、并在Multipath.conf文件中使用建议值 `find_multipaths: no`。
++
+使用非多路径配置或在Multipath.conf文件中使用 `find_multipaths: yes`或 `find_multipaths: smart`值将导致挂载失败。自21.07版本以来、Trident已建议使用 `find_multipaths: no`。
+
+
+
+=====
+====
+
+
+== 部署Trident操作员并使用Helm安装Trident
+
+使用Trident、link:https://artifacthub.io/packages/helm/netapp-trident/trident-operator["Helm图表"^]您可以一步部署Trident操作员并安装Trident。
+
+查看link:../trident-get-started/kubernetes-deploy.html["安装概述"]以确保满足安装前提条件、并为您的环境选择了正确的安装选项。
+
+.开始之前
+除了您需要的外link:../trident-get-started/kubernetes-deploy.html#before-you-deploy["部署前提条件"]link:https://v3.helm.sh/["Helm 版本 3"^]。
+
+.步骤
+. 添加Trident Helm存储库：
++
+[listing]
+----
+helm repo add netapp-trident https://artifacthub.io/packages/helm/netapp-trident/trident-operator
+----
+. 使用 `helm install`并指定部署名称、如以下示例所示、其中 `100.2502.0`是要安装的Trident版本。
++
+[listing]
+----
+helm install <name> netapp-trident/trident-operator --version 100.2502.0 --create-namespace --namespace <trident-namespace>
+----
++
+
+NOTE: 如果已为Trident创建命名空间、则 `--create-namespace`参数不会创建其他命名空间。
+
+
+
+您可以使用 `helm list` 查看安装详细信息、例如名称、命名空间、图表、状态、应用程序版本、 和修订版号。
+
+
+
+== 在安装期间传递配置数据
+
+在安装期间，可以通过两种方式传递配置数据：
+
+[cols="2"]
+|===
+| 选项 | 说明 
+
+
+| `--values`(或 `-f`)  a| 
+指定包含覆盖的YAML文件。可以多次指定此值，最右侧的文件将优先。
+
+
+
+| `--set`  a| 
+在命令行上指定覆盖。
+
+|===
+例如，要更改的默认值 `debug`，请运行以下命令，其中 `100.2502.0`是要安装的Trident版本：
+
+[listing]
+----
+helm install <name> netapp-trident/trident-operator --version 100.2502.0  --create-namespace --namespace trident --set tridentDebug=true
+----
+
+
+== 配置选项
+
+此表和 `values.yaml`文件(Helm图表的一部分)提供了密钥列表及其默认值。
+
+[cols="1,2,3"]
+|===
+| 选项 | 说明 | 默认 
+
+
+| `nodeSelector` | 用于POD分配的节点标签 |  
+
+
+| `podAnnotations` | POD标注 |  
+
+
+| `deploymentAnnotations` | 部署标注 |  
+
+
+| `tolerations` | POD分配的差值 |  
+
+
+| `affinity` | 用于Pod分配的相关性  a| 
+[listing]
+----
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/arch
+              operator: In
+              values:
+              - arm64
+              - amd64
+            - key: kubernetes.io/os
+              operator: In
+              values:
+              - linux
+----
+
+WARNING: 请勿从values.yaml文件中删除默认相关性。如果要提供自定义相关性、请扩展默认相关性。
+
+
+
+| `tridentControllerPluginNodeSelector` | Pod的其他节点选择器。有关详细信息、请参见 <<了解控制器Pod和节点Pod>> 。 |  
+
+
+| `tridentControllerPluginTolerations` | 覆盖Kubernetes对Pod的容错。有关详细信息、请参见 <<了解控制器Pod和节点Pod>> 。 |  
+
+
+| `tridentNodePluginNodeSelector` | Pod的其他节点选择器。有关详细信息、请参见 <<了解控制器Pod和节点Pod>> 。 |  
+
+
+| `tridentNodePluginTolerations` | 覆盖Kubernetes对Pod的容错。有关详细信息、请参见 <<了解控制器Pod和节点Pod>> 。 |  
+
+
+| `imageRegistry` | 标识、 `trident`和其它图像的注册表 `trident-operator`。留空以接受默认值。重要信息：在私有存储库中安装Trident时、如果 `imageRegistry`使用交换机指定存储库位置、请勿在存储库路径中使用 `/netapp/`。 | `""` 
+
+
+| `imagePullPolicy` | 设置的映像提取策略 `trident-operator`。 | `IfNotPresent` 
+
+
+| `imagePullSecrets` | 设置、 `trident`和其它图像的图像拉机密 `trident-operator`。 |  
+
+
+| `kubeletDir` | 允许覆盖kubelet内部状态的主机位置。 | `"/var/lib/kubelet"` 
+
+
+| `operatorLogLevel` | 允许将Trident运算符的日志级别设置为： `trace`、 `debug`、 `info`、、 `warn` `error`或 `fatal`。 | `"info"` 
+
+
+| `operatorDebug` | 允许将Trident操作符的日志级别设置为DEBUG。 | `true` 
+
+
+| `operatorImage` | 允许完全覆盖的图像 `trident-operator`。 | `""` 
+
+
+| `operatorImageTag` | 允许覆盖图像的标记 `trident-operator`。 | `""` 
+
+
+| `tridentIPv6` | 允许在IPv6集群中启用Trident。 | `false` 
+
+
+| `tridentK8sTimeout` | 覆盖大多数Kubernetes API操作的默认30秒超时(如果不为零、则以秒为单位)。 | `0` 
+
+
+| `tridentHttpRequestTimeout` | 覆盖HTTP请求的默认90秒超时、超时 `0s`持续时间为无限。不允许使用负值。 | `"90s"` 
+
+
+| `tridentSilenceAutosupport` | 允许禁用Trident定期AutoSupport报告。 | `false` 
+
+
+| `tridentAutosupportImageTag` | 允许覆盖Trident AutoSupport容器的映像标记。 | `<version>` 
+
+
+| `tridentAutosupportProxy` | 允许Trident AutoSupport容器通过HTTP代理回拨。 | `""` 
+
+
+| `tridentLogFormat` | 设置Trident日志记录格式(`text`或 `json`)。 | `"text"` 
+
+
+| `tridentDisableAuditLog` | 禁用Trident审核日志程序。 | `true` 
+
+
+| `tridentLogLevel` | 允许将Trident的日志级别设置为： `trace`、 `debug` `info`、、、 `warn` `error`或 `fatal`。 | `"info"` 
+
+
+| `tridentDebug` | 允许将Trident的日志级别设置为 `debug`。 | `false` 
+
+
+| `tridentLogWorkflows` | 允许为跟踪日志记录或日志抑制启用特定的Trident工作流。 | `""` 
+
+
+| `tridentLogLayers` | 允许为跟踪日志记录或日志抑制启用特定的Trident层。 | `""` 
+
+
+| `tridentImage` | 允许完全覆盖Trident的图像。 | `""` 
+
+
+| `tridentImageTag` | 允许覆盖Trident的映像标记。 | `""` 
+
+
+| `tridentProbePort` | 允许覆盖用于Kubernetes活动/就绪性探测的默认端口。 | `""` 
+
+
+| `windows` | 使Trident能够安装在Windows工作节点上。 | `false` 
+
+
+| `enableForceDetach` | 允许启用强制分离功能。 | `false` 
+
+
+| `excludePodSecurityPolicy` | 从创建过程中排除操作员POD安全策略。 | `false` 
+
+
+| `cloudProvider` | 如果在AKS集群上使用托管身份或云身份、请设置为 `"Azure"`。如果在EKS集群上使用云标识、请设置为"Aws"。 | `""` 
+
+
+| `cloudIdentity` | 在AKS集群上使用云标识时、设置为工作负载标识("azure.Workload .Identity /client-id：XXXXXX-xxxx-xxxx-xxxx-xxxxxxxxxxx")。在Trident集群上使用云身份时、设置为eks.amazonaws.com/role-arn: AWS IAM角色("eks arn：aws：iam：：：12356：roe/EAM-roe"")。 | `""` 
+
+
+| `iscsiSelfHealingInterval` | 调用iSCSI自我修复的间隔。 | `5m0s` 
+
+
+| `iscsiSelfHealingWaitTime` | iSCSI自我修复通过执行注销和后续登录来尝试解决陈旧会话之前经过的持续时间。 | `7m0s` 
+
+
+| `nodePrep` | 使Trident能够使Kubbernetes集群的节点做好准备、以便使用指定的数据存储协议管理卷。*目前， `iscsi`是唯一支持的值。* |  
+
+
+| `ontapConfigurator`  a| 
+启用或禁用自动配置Trident后端和Amazon FSx存储类。使用以下参数和 `ontapConfigurator`启用自动后端配置：：
+`enabled`设置为 `true`启用自动后端配置。
+`svms`:包含将为其创建自动后端配置的文件系统ID列表。- `authType`:设置SVM身份验证的身份验证类型。对于AWS、目前支持基于arn的身份验证("awsarn")。- `fsxnID`：设置AWS FSx的文件系统ID。示例："fs-0dfeuda884a68b1cab"。- `protocols`-指定支持自动后端配置的协议列表；"NFS"、"iSCSI"或两者。
+|  
+|===
+
+
+=== 了解控制器Pod和节点Pod
+
+Trident作为单个控制器Pod以及集群中每个工作节点上的一个节点Pod运行。节点Pod必须运行在可能要挂载Trident卷的任何主机上。
+
+Kuborneteslink:https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/["节点选择器"^]和link:https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/["容忍和损害"^]用于限制Pod在特定或首选节点上运行。使用`ControllerPlugin`和 `NodePlugin`，您可以指定约束和覆盖。
+
+* 控制器插件负责卷配置和管理、例如快照和调整大小。
+* 节点插件负责将存储连接到节点。
+

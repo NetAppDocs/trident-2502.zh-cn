@@ -1,0 +1,212 @@
+---
+sidebar: sidebar 
+permalink: trident-use/trident-fsx-examples.html 
+keywords: map backends, storage classes, trident backend, ontap-nas, ontap-nas-economy, ontap-nas-flexgroups, options, storageclasses, fsx 
+summary: 了解适用于ONTAP 的Amazon FSX的后端配置选项。本节提供了后端配置示例。 
+---
+= 适用于ONTAP 的FSX配置选项和示例
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解适用于ONTAP 的Amazon FSX的后端配置选项。本节提供了后端配置示例。
+
+
+
+== 后端配置选项
+
+有关后端配置选项，请参见下表：
+
+[cols="3"]
+|===
+| 参数 | 说明 | 示例 
+
+
+| `version` |  | 始终为 1 
+
+
+| `storageDriverName` | 存储驱动程序的名称 | `ontap-nas`、、 `ontap-nas-economy` `ontap-nas-flexgroup`、 `ontap-san` `ontap-san-economy` 
+
+
+| `backendName` | 自定义名称或存储后端 | 驱动程序名称+"_"+ dataLIF 
+
+
+| `managementLIF` | 集群或SVM管理LIF的IP地址可以指定完全限定域名(FQDN)。如果Trident是使用IPv6标志安装的、则可以设置为使用IPv6地址。IPv6地址必须用方括号定义、例如：[28e8：d9fb：a825：b7bf：69a8：d02f：9e7b：3555]。 | "10.0.0.1"、"[2001：1234：abc：：：fefe]" 
+
+
+| `dataLIF` | 协议 LIF 的 IP 地址。* ONTAP NAS驱动程序*：NetApp建议指定dataLIF。如果未提供此参数、则Trident将从SVM提取数据LIF。您可以指定要用于NFS挂载操作的完全限定域名(FQDN)、以便创建轮叫DNS来在多个dataLIF之间进行负载平衡。可以在初始设置后更改。请参阅 。* ONTAP SAN驱动程序*：不为iSCSI指定。Trident使用ONTAP选择性LUN映射来发现建立多路径会话所需的iSCI LI。如果明确定义了dataLIF、则会生成警告。如果Trident是使用IPv6标志安装的、则可以设置为使用IPv6地址。IPv6地址必须用方括号定义、例如：[28e8：d9fb：a825：b7bf：69a8：d02f：9e7b：3555]。 |  
+
+
+| `autoExportPolicy` | 启用自动创建和更新导出策略[布尔值]。使用 `autoExportPolicy`和 `autoExportCIDRs`选项、Trident可以自动管理导出策略。 | `false` 
+
+
+| `autoExportCIDRs` | 用于筛选KubeNet节点IP的CIDR列表(启用时)。 `autoExportPolicy`使用 `autoExportPolicy`和 `autoExportCIDRs`选项、Trident可以自动管理导出策略。 | "["0.0.0.0/0、"：：：/0"]" 
+
+
+| `labels` | 要应用于卷的一组任意 JSON 格式的标签 | "" 
+
+
+| `clientCertificate` | 客户端证书的 Base64 编码值。用于基于证书的身份验证 | "" 
+
+
+| `clientPrivateKey` | 客户端专用密钥的 Base64 编码值。用于基于证书的身份验证 | "" 
+
+
+| `trustedCACertificate` | 受信任 CA 证书的 Base64 编码值。可选。用于基于证书的身份验证。 | "" 
+
+
+| `username` | 用于连接到集群或SVM的用户名。用于基于凭据的身份验证。例如、vsadmin。 |  
+
+
+| `password` | 用于连接到集群或SVM的密码。用于基于凭据的身份验证。 |  
+
+
+| `svm` | 要使用的 Storage Virtual Machine | 如果指定SVM管理LIF则派生。 
+
+
+| `storagePrefix` | 在 SVM 中配置新卷时使用的前缀。创建后无法修改。要更新此参数、您需要创建一个新的后端。 | `trident` 
+
+
+| `limitAggregateUsage` | *请勿指定Amazon FSx for NetApp ONTAP。*提供的和 `vsadmin`不包含使用Trident检索聚合使用情况并对其进行限制所需的 `fsxadmin`权限。 | 请勿使用。 
+
+
+| `limitVolumeSize` | 如果请求的卷大小超过此值、则配置失败。此外、还会限制它为qtrees和FlexVol volume管理的卷的大小上限、并且此选项允许自定义每个LUN `qtreesPerFlexvol`的qtrees的最大数量 | "" （默认情况下不强制实施） 
+
+
+| `lunsPerFlexvol` | 每个FlexVol 的最大LUN数必须在50、200范围内。仅SAN。 | `100` 
+
+
+| `debugTraceFlags` | 故障排除时要使用的调试标志。例如、除非您正在进行故障排除并需要详细的日志转储、否则不会使用｛"api"：false、"METHO"：true｝ `debugTraceFlags`。 | 空 
+
+
+| `nfsMountOptions` | NFS挂载选项的逗号分隔列表。通常会在存储类中为Kubnetes-永久性 卷指定挂载选项、但如果在存储类中未指定挂载选项、则Trident将回退到使用存储后端配置文件中指定的挂载选项。如果在存储类或配置文件中未指定挂载选项、则Trident不会在关联的永久性卷上设置任何挂载选项。 | "" 
+
+
+| `nasType` | 配置NFS或SMB卷创建。选项包括 `nfs`、 `smb`或null。*对于SMB卷，必须设置为 `smb`。*默认情况下、将设置为空会将NFS卷设置为空。 | `nfs` 
+
+
+| `qtreesPerFlexvol` | 每个 FlexVol 的最大 qtree 数，必须在 50 ， 300 范围内 | `200` 
+
+
+| `smbShare` | 您可以指定以下选项之一：使用Microsoft管理控制台或ONTAP命令行界面创建的SMB共享的名称、或者允许Trident创建SMB共享的名称。对于Amazon FSx for ONTAP后端、此参数是必需的。 | `smb-share` 
+
+
+| `useREST` | 用于使用 ONTAP REST API 的布尔参数。 `useREST`设置为时 `true`，Trident使用ONTAP REST API与后端通信；设置为时 `false`，Trident使用ONTAPI (ZAPI)调用与后端通信。此功能需要使用ONTAP 9.11.1及更高版本。此外、使用的ONTAP登录角色必须有权访问 `ontapi` 应用程序。预定义的和角色可以满足这一 `vsadmin` 要求 `cluster-admin` 。从Trident 24.06版和9.15.1 9.151或更高版本开始、默认情况下会 `useREST`设置为 `true`；更 `useREST`改为 `false`以使用ONTAPI (ZAPI)调用。 | `true` 对于ONTAP 9.151或更高版本，否则 `false`。 
+
+
+| `aws` | 您可以在AWS FSx for ONTAP的配置文件中指定以下内容：- `fsxFilesystemID`：指定AWS FSx文件系统的ID。- `apiRegion`：AWS API区域名称。- `apikey`：AWS API密钥。- `secretKey`：AWS密钥。 | ``
+`` 
+`""`
+`""`
+`""` 
+
+
+| `credentials` | 指定要存储在AWS密码管理器中的FSx SVM凭据。- `name`：密钥的Amazon资源名称(ARN)、其中包含SVM的凭据。- `type`：设置为 `awsarn`。有关详细信息、请参见 link:https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html["创建AWS机密管理器密钥"^] 。 |  
+|===
+
+
+=== 在初始配置后更新 `dataLIF`
+
+您可以在初始配置后更改dataLIF、方法是运行以下命令、为新的后端JSON文件提供更新后的dataLIF。
+
+[source, console]
+----
+tridentctl update backend <backend-name> -f <path-to-backend-json-file-with-updated-dataLIF>
+----
+
+NOTE: 如果一个或多个Pod连接了PVC、则必须先关闭所有相应的Pod、然后再将其重新启动、以使新的dataLIF生效。
+
+
+
+== 用于配置卷的后端配置选项
+
+您可以在配置部分使用这些选项控制默认配置 `defaults`。有关示例，请参见以下配置示例。
+
+[cols="3"]
+|===
+| 参数 | 说明 | 默认 
+
+
+| `spaceAllocation` | LUN 的空间分配 | `true` 
+
+
+| `spaceReserve` | 空间预留模式；"无"(精简)或"卷"(厚) | `none` 
+
+
+| `snapshotPolicy` | 要使用的 Snapshot 策略 | `none` 
+
+
+| `qosPolicy` | 要为创建的卷分配的 QoS 策略组。选择每个存储池或后端的qosPolicy或adaptiveQosPolicy之一。将QoS策略组与Trident结合使用需要使用ONTAP 9™8或更高版本。您应使用非共享QoS策略组、并确保此策略组分别应用于每个成分卷。共享QoS策略组会对所有工作负载的总吞吐量实施上限。 | "" 
+
+
+| `adaptiveQosPolicy` | 要为创建的卷分配的自适应 QoS 策略组。选择每个存储池或后端的qosPolicy或adaptiveQosPolicy之一。不受 ontap-nas-economy. | "" 
+
+
+| `snapshotReserve` | 为快照"0"预留的卷百分比 | 如果 `snapshotPolicy`为 `none`， `else`“” 
+
+
+| `splitOnClone` | 创建克隆时，从其父级拆分该克隆 | `false` 
+
+
+| `encryption` | 在新卷上启用NetApp卷加密(NVE)；默认为 `false`。要使用此选项，必须在集群上获得 NVE 的许可并启用 NVE 。如果在后端启用了NAE、则在Trident中配置的任何卷都将启用NAE。有关详细信息，请参阅：link:../trident-reco/security-reco.html["Trident如何与NVE和NAE配合使用"]。 | `false` 
+
+
+| `luksEncryption` | 启用LUKS加密。请参阅 link:../trident-reco/security-reco.html#Use-Linux-Unified-Key-Setup-(LUKS)["使用Linux统一密钥设置(LUKS)"]。仅SAN。 | "" 
+
+
+| `tieringPolicy` | 要使用的层策略	`none` |  
+
+
+| `unixPermissions` | 新卷的模式。*对于SMB卷保留为空。* | "" 
+
+
+| `securityStyle` | 新卷的安全模式。NFS支持 `mixed`和 `unix`安全模式。SMB支持 `mixed`和 `ntfs`安全模式。 | NFS默认值为 `unix`。SMB默认值为 `ntfs`。 
+|===
+
+
+== 示例配置
+
+.配置SMB卷的存储类
+[%collapsible]
+====
+使用 `nasType`、 `node-stage-secret-name`和 `node-stage-secret-namespace`，您可以指定SMB卷并提供所需的Active Directory凭据。仅使用驱动程序支持SMB卷 `ontap-nas`。
+
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nas-smb-sc
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  trident.netapp.io/nasType: "smb"
+  csi.storage.k8s.io/node-stage-secret-name: "smbcreds"
+  csi.storage.k8s.io/node-stage-secret-namespace: "default"
+----
+====
+.配置AWS FSx for ONTAP和"一切 管理器"
+[%collapsible]
+====
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-ontap-nas
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  backendName: tbc-ontap-nas
+  svm: svm-name
+  aws:
+    fsxFilesystemID: fs-xxxxxxxxxx
+  managementLIF:
+  credentials:
+    name: "arn:aws:secretsmanager:us-west-2:xxxxxxxx:secret:secret-name"
+    type: awsarn
+----
+====

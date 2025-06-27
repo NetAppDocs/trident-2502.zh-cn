@@ -1,0 +1,148 @@
+---
+sidebar: sidebar 
+permalink: trident-protect/trident-protect-installation.html 
+keywords: install, trident, protect, requirements, registry 
+summary: 如果您的环境符合要求、则可以按照以下步骤安装Trident Protect。 
+---
+= 安装和配置Trident Protect
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您的环境满足Trident Protect的要求、您可以按照以下步骤在集群上安装Trident Protect。您可以从NetApp获取Trident Protect、也可以从您自己的私人注册表安装它。如果集群无法访问Internet、则从专用注册表进行安装非常有用。
+
+
+
+== 安装Trident Protect
+
+[role="tabbed-block"]
+====
+.安装Trident Protect from NetApp
+--
+.步骤
+. 添加Trident Helm存储库：
++
+[source, console]
+----
+helm repo add netapp-trident-protect https://netapp.github.io/trident-protect-helm-chart
+----
+. 安装Trident Protect CRD：
++
+[source, console]
+----
+helm install trident-protect-crds netapp-trident-protect/trident-protect-crds --version 100.2502.0 --create-namespace --namespace trident-protect
+----
+. 使用Helm安装Trident Protect。替换 `<name-of-cluster>`为集群名称、此名称将分配给集群并用于标识集群的备份和快照：
++
+[source, console]
+----
+helm install trident-protect netapp-trident-protect/trident-protect --set clusterName=<name-of-cluster> --version 100.2502.0 --create-namespace --namespace trident-protect
+----
+
+
+--
+.从专用注册表安装Trident Protect
+--
+如果您的Trident集群无法访问Internet、则可以从专用映像注册表安装Kubbernetes Protect。在以下示例中、将括号中的值替换为您环境中的信息：
+
+.步骤
+. 将以下映像提取到本地计算机、更新标记、然后将其推送到您的私人注册表：
++
+[source, console]
+----
+netapp/controller:25.02.0
+netapp/restic:25.02.0
+netapp/kopia:25.02.0
+netapp/trident-autosupport:25.02.0
+netapp/exechook:25.02.0
+netapp/resourcebackup:25.02.0
+netapp/resourcerestore:25.02.0
+netapp/resourcedelete:25.02.0
+bitnami/kubectl:1.30.2
+kubebuilder/kube-rbac-proxy:v0.16.0
+----
++
+例如：
+
++
+[source, console]
+----
+docker pull netapp/controller:25.02.0
+----
++
+[source, console]
+----
+docker tag netapp/controller:25.02.0 <private-registry-url>/controller:25.02.0
+----
++
+[source, console]
+----
+docker push <private-registry-url>/controller:25.02.0
+----
+. 创建Trident Protect系统命名空间：
++
+[source, console]
+----
+kubectl create ns trident-protect
+----
+. 登录到注册表：
++
+[source, console]
+----
+helm registry login <private-registry-url> -u <account-id> -p <api-token>
+----
+. 创建用于私人注册表身份验证的拉机密：
++
+[source, console]
+----
+kubectl create secret docker-registry regcred --docker-username=<registry-username> --docker-password=<api-token> -n trident-protect --docker-server=<private-registry-url>
+----
+. 添加Trident Helm存储库：
++
+[source, console]
+----
+helm repo add netapp-trident-protect https://netapp.github.io/trident-protect-helm-chart
+----
+. 创建一个名为的文件 `protectValues.yaml`。确保它包含以下Trident保护设置：
++
+[source, yaml]
+----
+---
+image:
+  registry: <private-registry-url>
+imagePullSecrets:
+  - name: regcred
+controller:
+  image:
+    registry: <private-registry-url>
+rbacProxy:
+  image:
+    registry: <private-registry-url>
+crCleanup:
+  imagePullSecrets:
+    - name: regcred
+webhooksCleanup:
+  imagePullSecrets:
+    - name: regcred
+----
+. 安装Trident Protect CRD：
++
+[source, console]
+----
+helm install trident-protect-crds netapp-trident-protect/trident-protect-crds --version 100.2502.0 --create-namespace --namespace trident-protect
+----
+. 使用Helm安装Trident Protect。替换 `<name_of_cluster>`为集群名称、此名称将分配给集群并用于标识集群的备份和快照：
++
+[source, console]
+----
+helm install trident-protect netapp-trident-protect/trident-protect --set clusterName=<name_of_cluster> --version 100.2502.0 --create-namespace --namespace trident-protect -f protectValues.yaml
+----
+
+
+--
+====

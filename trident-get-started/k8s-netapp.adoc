@@ -1,0 +1,68 @@
+---
+sidebar: sidebar 
+permalink: trident-get-started/k8s-netapp.html 
+keywords: kubernetes, netapp storage, ontap, cloud volumes ontap, santricity, element software, netapp hci, anf, azure netapp files, cloud volumes service for google cloud, gcp, aws, amazon fsx 
+summary: NetApp 存储产品组合可与 Kubernetes 集群的许多不同方面相集成，从而提供高级数据管理功能，从而增强 Kubernetes 部署的功能，功能，性能和可用性。 
+---
+= Kubnetes与NetApp产品的集成
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp 存储产品组合可与 Kubernetes 集群的许多不同方面相集成，从而提供高级数据管理功能，从而增强 Kubernetes 部署的功能，功能，性能和可用性。
+
+
+
+== Trident
+
+https://docs.netapp.com/us-en/trident/["Trident"^]让企业可以更轻松地在公有云和内部环境中、跨公有云和内部环境管理、保护和移动在Kubnetes上运行的数据丰富的容器化工作负载。Trident利用公共云和内部环境中经验证的广泛NetApp存储产品组合中的Trident配置和提供持久容器存储。此外，它还提供了一组丰富的高级应用程序感知型数据管理功能，例如快照，备份和还原，活动日志和主动克隆，用于数据保护，灾难 / 数据恢复，数据审核以及 Kubernetes 工作负载的迁移用例。
+
+
+
+== ONTAP
+
+ONTAP是NetApp多协议统一存储操作系统、可为任何应用程序提供高级数据管理功能。ONTAP 系统采用全闪存，混合或全 HDD 配置，并提供多种不同的部署模式，包括专门设计的硬件（ FAS 和 AFF ），白盒（ ONTAP Select ）和纯云（ Cloud Volumes ONTAP ）。
+
+
+NOTE: Trident 支持上述所有 ONTAP 部署模式。
+
+
+
+== Cloud Volumes ONTAP
+
+http://cloud.netapp.com/ontap-cloud?utm_source=GitHub&utm_campaign=Trident["Cloud Volumes ONTAP"^]是一款纯软件存储设备、可在云中运行ONTAP数据管理软件。您可以将 Cloud Volumes ONTAP 用于生产工作负载、灾难恢复、 DevOps 、文件共享和数据库管理。它通过提供存储效率，高可用性，数据复制，数据分层和应用程序一致性，将企业级存储扩展到云。
+
+
+
+== 适用于 NetApp ONTAP 的 Amazon FSX
+
+https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["适用于 NetApp ONTAP 的 Amazon FSX"^]是一项完全托管的AWS服务、可用于启动和运行由NetApp ONTAP存储操作系统提供支持的文件系统。FSx for ONTAP支持您利用熟悉的NetApp功能、性能和管理功能、同时利用在AWS上存储数据的精简性、灵活性、安全性和可扩展性。FSx for ONTAP支持许多ONTAP文件系统功能和管理API。
+
+
+
+== Element 软件
+
+https://www.netapp.com/data-management/element-software/["Element"^]存储管理员可以通过保障性能并简化存储占用空间来整合工作负载。Element 与 API 相结合，可实现存储管理各个方面的自动化，可帮助存储管理员事半功倍。
+
+
+
+== NetApp HCI
+
+https://www.netapp.com/virtual-desktop-infrastructure/netapp-hci/["NetApp HCI"^]通过自动化执行日常任务并使基础架构管理员能够专注于更重要的功能、简化数据中心的管理和扩展。
+
+Trident 完全支持 NetApp HCI 。Trident 可以直接在底层 NetApp HCI 存储平台上为容器化应用程序配置和管理存储设备。
+
+
+
+== Azure NetApp Files
+
+https://azure.microsoft.com/en-us/services/netapp/["Azure NetApp Files"^]是由NetApp提供支持的企业级Azure文件共享服务。您可以在 Azure 中以本机方式运行要求最苛刻的基于文件的工作负载，同时享受 NetApp 应有的性能和丰富的数据管理功能。
+
+
+
+== Google Cloud NetApp卷
+
+https://cloud.netapp.com/cloud-volumes-service-for-gcp?utm_source=GitHub&utm_campaign=Trident["Google Cloud NetApp卷"^]是一种云原生文件服务、可通过NFS为NAS卷提供全闪存性能。此服务支持在GCP云中运行任何工作负载、包括传统应用程序。它提供了一种完全托管的服务，可提供稳定一致的高性能，即时克隆，数据保护以及对 Google Compute Engine （ GCE ）实例的安全访问。

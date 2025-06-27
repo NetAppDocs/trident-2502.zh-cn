@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: trident-get-started/quickstart.html 
+keywords: kubernetes cluster, simple installation, Kubernetes installation 
+summary: 如果您刚刚开始使用 Kubernetes ，请按照说明安装 Kubernetes 以进行尝试。这些说明提供了一个裸机单节点集群， Trident 可以与此集群集成以供演示。 
+---
+= Trident快速入门
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以通过几个步骤安装Trident并开始管理存储资源。开始之前，请查看link:requirements.html["Trident要求"]。
+
+
+NOTE: 对于Docker，请参见link:../trident-docker/deploy-docker.html["适用于Docker的Trident"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"]准备工作节点
+[role="quick-margin-para"]
+Kubernetes集群中的所有工作节点都必须能够挂载为Pod配置的卷。
+
+[role="quick-margin-para"]
+link:../trident-use/worker-node-prep.html["准备工作节点"]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"]安装Trident
+[role="quick-margin-para"]
+Trident提供了多种针对各种环境和组织进行了优化的安装方法和模式。
+
+[role="quick-margin-para"]
+link:../trident-get-started/kubernetes-deploy.html["安装 Trident"]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三个"]创建后端
+[role="quick-margin-para"]
+后端用于定义Trident与存储系统之间的关系。它会告诉Trident如何与该存储系统通信、以及Trident如何从该存储系统配置卷。
+
+[role="quick-margin-para"]
+link:../trident-use/backends.html["配置后端"]存储系统
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"]创建Kubbernetes存储类
+[role="quick-margin-para"]
+Kubnetes StorageClass对象将Trident指定为配置程序、并允许您创建存储类以配置具有可自定义属性的卷。Trident会为指定Trident配置程序的Kubbernetes对象创建匹配的存储类。
+
+[role="quick-margin-para"]
+link:../trident-use/create-stor-class.html["创建存储类。"]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五个"]配置卷
+[role="quick-margin-para"]
+永久性卷(PV)是由集群管理员在Kubernetes集群上配置的物理存储资源。_PersentVolumeClaim_(PVC)是对集群上的PersentVolume的访问请求。
+
+[role="quick-margin-para"]
+创建一个使用已配置的Kubernetes StorageClass来请求对PV的访问的永久性卷(PV)和永久性卷克莱姆(PVC)。然后、您可以将PV挂载到POD。
+
+[role="quick-margin-para"]
+link:../trident-use/vol-provision.html["配置卷"]
+
+
+
+== 下一步是什么？
+
+现在、您可以添加其他后端、管理存储类、管理后端以及执行卷操作。

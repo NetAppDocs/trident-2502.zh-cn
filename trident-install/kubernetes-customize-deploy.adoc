@@ -1,0 +1,291 @@
+---
+sidebar: sidebar 
+permalink: trident-get-started/kubernetes-customize-deploy.html 
+keywords: deploy, trident, methods, operator, tridentctl, helm, attributes, customize, tridentorchestrator, smb, windows 
+summary: '通过Trident运算符、您可以使用规范中的属性自定义Trident的安装方式 `TridentOrchestrator`。' 
+---
+= 自定义Trident操作员安装
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Trident操作员允许您使用规范中的属性自定义Trident安装 `TridentOrchestrator`。如果要在允许的参数之外自定义安装 `TridentOrchestrator`、请考虑使用生成自定义YAML清单、 `tridentctl`以便根据需要进行修改。
+
+
+
+== 了解控制器Pod和节点Pod
+
+Trident作为单个控制器Pod以及集群中每个工作节点上的一个节点Pod运行。节点Pod必须运行在可能要挂载Trident卷的任何主机上。
+
+Kuborneteslink:https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/["节点选择器"^]和link:https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/["容忍和损害"^]用于限制Pod在特定或首选节点上运行。使用`ControllerPlugin`和 `NodePlugin`，您可以指定约束和覆盖。
+
+* 控制器插件负责卷配置和管理、例如快照和调整大小。
+* 节点插件负责将存储连接到节点。
+
+
+
+
+== 配置选项
+
+
+WARNING: `spec.namespace`在中指定 `TridentOrchestrator`以表示安装Trident的命名空间。安装Trident后无法更新此参数*。尝试执行此操作会导致 `TridentOrchestrator`状态更改为 `Failed`。Trident不应跨多个名称卷进行迁移。
+
+此表详细介绍了 `TridentOrchestrator`属性。
+
+[cols="1,2,1"]
+|===
+| 参数 | 说明 | 默认 
+
+
+| `namespace` | 要安装Trident的命名空间 | `"default"` 
+
+
+| `debug` | 为Trident启用调试 | `false` 
+
+
+| `enableForceDetach` | `ontap-san` `ontap-san-economy`仅限、、 `ontap-nas`和 `ontap-nas-economy`。可与Kubnetes非正常节点关闭(NGN)结合使用、使集群管理员能够在节点运行状况不正常时将已挂载卷的工作负载安全地迁移到新节点。 | `false` 
+
+
+| `windows` | 设置为 `true`在Windows工作节点上启用安装。 | `false` 
+
+
+| `cloudProvider`  a| 
+如果在AKS集群上使用托管身份或云身份、请设置为 `"Azure"`。如果在EKS集群上使用云标识、请设置为 `"AWS"`。在GKE集群上使用云标识时、将设置为 `"GCP"`。
+| `""` 
+
+
+| `cloudIdentity`  a| 
+在AKS集群上使用云标识时、设置为工作负载标识("azure.Workload .Identity /client-id：XXXXXX-xxxx-xxxx-xxxx-xxxxxxxxxxx")。在Trident集群上使用云身份时、设置为eks.amazonaws.com/role-arn: AWS IAM角色("eks arn：aws：iam：：：12356：roe/EAM-roe"")。在GKE集群上使用云标识时、请设置为云标识("iam.GKE.IO/GCP-service-account：xxxx@mygcpproject.iam.gserviceaccount.com ")。
+| `""` 
+
+
+| `IPv6` | 安装基于IPv6的Trident | false 
+
+
+| `k8sTimeout` | Kubernetes 操作超时 | `30sec` 
+
+
+| `silenceAutosupport` | 不要自动向 NetApp 发送 AutoSupport 捆绑包 | `false` 
+
+
+| `autosupportImage` | AutoSupport 遥测的容器映像 | `"netapp/trident-autosupport:25.02"` 
+
+
+| `autosupportProxy` | 用于发送 AutoSupport 遥测的代理的地址 / 端口 | `"http://proxy.example.com:8888"` 
+
+
+| `uninstall` | 用于卸载Trident的标志 | `false` 
+
+
+| `logFormat` | 要使用的Trident日志记录格式[text,json] | `"text"` 
+
+
+| `tridentImage` | 要安装的Trident映像 | `"netapp/trident:25.02"` 
+
+
+| `imageRegistry` | 内部注册表的路径、格式
+`<registry FQDN>[:port][/subpath]` | `"registry.k8s.io"` 
+
+
+| `kubeletDir` | 主机上的 kubelet 目录的路径 | `"/var/lib/kubelet"` 
+
+
+| `wipeout` | 要删除以执行Trident完全删除的资源列表 |  
+
+
+| `imagePullSecrets` | 从内部注册表中提取映像的机密信息 |  
+
+
+| `imagePullPolicy` | 设置Trident运算符的映像提取策略。有效值为：
+`Always`以始终提取图像。
+`IfNotPresent`仅当节点上尚不存在映像时才提取该映像。
+`Never`从不拉取图像。 | `IfNotPresent` 
+
+
+| `controllerPluginNodeSelector` | Pod的其他节点选择器。遵循与相同的格式 `pod.spec.nodeSelector`。 | 无默认值；可选 
+
+
+| `controllerPluginTolerations` | 覆盖Kubernetes对Pod的容错。遵循与相同的格式 `pod.spec.Tolerations`。 | 无默认值；可选 
+
+
+| `nodePluginNodeSelector` | Pod的其他节点选择器。遵循与相同的格式 `pod.spec.nodeSelector`。 | 无默认值；可选 
+
+
+| `nodePluginTolerations` | 覆盖Kubernetes对Pod的容错。遵循与相同的格式 `pod.spec.Tolerations`。 | 无默认值；可选 
+
+
+| `nodePrep` | 使Trident能够使Kubbernetes集群的节点做好准备、以便使用指定的数据存储协议管理卷。*目前， `iscsi`是唯一支持的值。* |  
+
+
+| `enableAutoBackendConfig` | 启用自动后端配置、从而根据输入参数无缝创建后端和存储类。 | 无默认值；可选 
+|===
+
+NOTE: 有关格式化POD参数的详细信息，请参阅link:https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/["将 Pod 分配给节点"^]。
+
+
+
+=== 有关强制断开的详细信息
+
+强制分离仅适用于 `ontap-san`、、 `ontap-san-economy`和 `onatp-nas-economy`。 `onatp-nas`在启用强制断开之前、必须在Kubbernetes集群上启用非正常节点关闭(NGN)。默认情况下、对于Kubbernetes 1.28及更高版本、NGN处于启用状态。有关详细信息，请参阅 link:https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/#non-graceful-node-shutdown["Kubnetes：节点非正常关闭"^]。
+
+
+NOTE: 使用或驱动程序时 `ontap-nas`、您需要将后端配置中的参数设置 `autoExportPolicy`为 `true`、以便Trident可以限制通过受管导出策略应用了此内容的Kubornetes `ontap-nas-economy`节点的访问。
+
+
+WARNING: 由于Trident依赖于Kubbernetes NGN、因此在重新计划所有不可允许的工作负载之前、请勿从运行状况不正常的节点中删除 `out-of-service`污点。不负责任地应用或删除该问题可能会危及后端数据保护。
+
+当Kubnetes集群管理员已将此标记应用 `node.kubernetes.io/out-of-service=nodeshutdown:NoExecute`于节点并 `enableForceDetach`设置为 `true`时，Trident将确定节点状态并：
+
+. 停止挂载到该节点的卷的后端I/O访问。
+. 将Trident节点对象标记为 `dirty`(对于新出版物不安全)。
++
+
+NOTE: Trident控制器将拒绝新的发布卷请求，直到节点被Trident节点POD重新认定(标记为后)为止 `dirty`。使用挂载的PVC计划的任何工作负载(即使在集群节点运行状况良好且已准备就绪之后)都将无法接受、直到Trident能够验证该节点 `clean`(对于新发布的产品来说是安全的)。
+
+
+
+在恢复节点运行状况并删除此污染后、Trident将：
+
+. 确定并清除节点上陈旧的已发布路径。
+. 如果此节点处于某个 `cleanable`状态(已删除服务中断、并且此节点处于 `Ready`状态)、并且所有陈旧的已发布路径均已清理、则Trident会将此节点重新提交为、并允许新的已发布卷访问此节点 `clean`。
+
+
+
+
+== 配置示例
+
+定义时、您可以使用中的属性<<配置选项>>来自定义 `TridentOrchestrator`安装。
+
+.基本自定义配置
+[%collapsible]
+====
+此示例在运行命令后创建 `cat deploy/crds/tridentorchestrator_cr_imagepullsecrets.yaml`、表示基本的自定义安装：
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  imagePullSecrets:
+  - thisisasecret
+----
+====
+.节点选择器
+[%collapsible]
+====
+此示例将安装具有节点选择器的Trident。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  controllerPluginNodeSelector:
+    nodetype: master
+  nodePluginNodeSelector:
+    storage: netapp
+----
+====
+.Windows工作节点
+[%collapsible]
+====
+此示例在运行命令后创建 `cat deploy/crds/tridentorchestrator_cr.yaml`、用于在Windows工作节点上安装Trident。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  windows: true
+----
+====
+.AKS集群上的受管身份
+[%collapsible]
+====
+此示例将安装Trident以在AKS集群上启用受管身份。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  cloudProvider: "Azure"
+----
+====
+.AKS集群上的云身份
+[%collapsible]
+====
+此示例将在AKS集群上安装Trident以与云标识结合使用。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  cloudProvider: "Azure"
+  cloudIdentity: 'azure.workload.identity/client-id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx'
+
+----
+====
+.EKS集群上的云身份
+[%collapsible]
+====
+此示例将在AKS集群上安装Trident以与云标识结合使用。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentOrchestrator
+metadata:
+  name: trident
+spec:
+  debug: true
+  namespace: trident
+  cloudProvider: "AWS"
+  cloudIdentity: "'eks.amazonaws.com/role-arn: arn:aws:iam::123456:role/trident-role'"
+----
+====
+.适用于GKE的云身份
+[%collapsible]
+====
+此示例将在GKE集群上安装Trident以与云标识结合使用。
+
+[source, yaml]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: backend-tbc-gcp-gcnv
+spec:
+  version: 1
+  storageDriverName: google-cloud-netapp-volumes
+  projectNumber: '012345678901'
+  network: gcnv-network
+  location: us-west2
+  serviceLevel: Premium
+  storagePool: pool-premium1
+----
+====

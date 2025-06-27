@@ -1,0 +1,142 @@
+---
+sidebar: sidebar 
+permalink: trident-use/ontap-san.html 
+keywords: trident backend, ontap san, ontap-san, ontap-san-economy, fsx, drivers, access modes, rwo, rwx, rwp, rwop, file system 
+summary: 了解如何使用ONTAP SAN驱动程序配置ONTAP后端。 
+---
+= ONTAP SAN驱动程序概述
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解如何使用ONTAP和Cloud Volumes ONTAP SAN驱动程序配置ONTAP后端。
+
+
+
+== ONTAP SAN驱动程序详细信息
+
+Trident提供了以下SAN存储驱动程序来与ONTAP集群进行通信。支持的访问模式包括：_ReadWriteOnce_(RWO)、_ReadOnlyMany_(ROX)、_ReadWriteMany_(rwx)、_ReadWriteOncePod_(RWOP)。
+
+[cols="2, 1, 1, 2, 2"]
+|===
+| 驱动程序 | 协议 | 卷模式 | 支持的访问模式 | 支持的文件系统 
+
+
+| `ontap-san`  a| 
+基于FC的iSCSI SCSI
+ a| 
+块
+ a| 
+Rwo、ROX、rwx、RWOP
+ a| 
+无文件系统；原始块设备
+
+
+
+| `ontap-san`  a| 
+基于FC的iSCSI SCSI
+ a| 
+文件系统
+ a| 
+Rwo、RWO1.
+
+Rox和rwx在文件系统卷模式下不可用。
+ a| 
+`xfs`、 `ext3`、 `ext4`
+
+
+
+| `ontap-san`  a| 
+NVMe/TCP
+
+请参阅 <<NVMe/TCP的其他注意事项>>。
+ a| 
+块
+ a| 
+Rwo、ROX、rwx、RWOP
+ a| 
+无文件系统；原始块设备
+
+
+
+| `ontap-san`  a| 
+NVMe/TCP
+
+请参阅 <<NVMe/TCP的其他注意事项>>。
+ a| 
+文件系统
+ a| 
+Rwo、RWO1.
+
+Rox和rwx在文件系统卷模式下不可用。
+ a| 
+`xfs`、 `ext3`、 `ext4`
+
+
+
+| `ontap-san-economy`  a| 
+iSCSI
+ a| 
+块
+ a| 
+Rwo、ROX、rwx、RWOP
+ a| 
+无文件系统；原始块设备
+
+
+
+| `ontap-san-economy`  a| 
+iSCSI
+ a| 
+文件系统
+ a| 
+Rwo、RWO1.
+
+Rox和rwx在文件系统卷模式下不可用。
+ a| 
+`xfs`、 `ext3`、 `ext4`
+
+|===
+[WARNING]
+====
+* 只有当永久性卷使用量计数预期大于时才使用 `ontap-san-economy`link:https://docs.netapp.com/us-en/ontap/volumes/storage-limits-reference.html["支持的ONTAP卷限制"^]。
+*  `ontap-nas-economy`仅当永久性卷使用量计数预计高于且 `ontap-san-economy`无法使用驱动程序时才link:https://docs.netapp.com/us-en/ontap/volumes/storage-limits-reference.html["支持的ONTAP卷限制"^]使用。
+* 如果您预计需要数据保护、灾难恢复或移动性、请勿使用 `ontap-nas-economy`。
+* NetApp不建议在所有ONTAP驱动程序中使用FlexVol自动增长、但ONTAP SAN除外。解决方法是、Trident支持使用快照预留并相应地扩展FlexVol卷。
+
+
+====
+
+
+== 用户权限
+
+Trident应以ONTAP或SVM管理员身份运行、通常使用集群用户 `vsadmin`或SVM用户、或者使用 `admin`具有相同角色的其他名称的用户。对于Amazon FSx for NetApp ONTAP部署、Trident应使用集群用户 `vsadmin`或SVM用户以ONTAP或SVM管理员身份运行、或者使用具有相同角色的其他名称的用户运行 `fsxadmin`。此 `fsxadmin`用户只能有限地替代集群管理员用户。
+
+
+NOTE: 如果使用 `limitAggregateUsage`参数、则需要集群管理员权限。将Amazon FSx for NetApp ONTAP与Trident结合使用时、 `limitAggregateUsage`参数不适用于 `vsadmin`和 `fsxadmin`用户帐户。如果指定此参数，配置操作将失败。
+
+虽然可以在ONTAP中创建一个可以由三端驱动程序使用的限制性更强的角色、但我们不建议这样做。大多数新版本的 Trident 都会调用需要考虑的其他 API ，从而使升级变得困难且容易出错。
+
+
+
+== NVMe/TCP的其他注意事项
+
+Trident使用以下驱动程序支持非易失性内存快速(NVMe)协议 `ontap-san`：
+
+* IPv6
+* NVMe卷的快照和克隆
+* 调整NVMe卷大小
+* 导入在Trident外部创建的NVMe卷、以便Trident可以管理其生命周期
+* NVMe本机多路径
+* 正常或非正常关闭K8s节点(24.06)
+
+
+Trident不支持：
+
+* DH-HMAC-CHAP、由NVMe本机提供支持
+* 设备映射程序(Device maper、DM)多路径
+* LUKS加密
+
