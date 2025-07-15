@@ -188,7 +188,7 @@ Trident建议使用以下选项来加快格式化过程：
 | `encryption` | 在新卷上启用NetApp卷加密(NVE)；默认为 `false`。要使用此选项，必须在集群上获得 NVE 的许可并启用 NVE 。如果在后端启用了NAE、则在Trident中配置的任何卷都将启用NAE。有关详细信息，请参阅：link:../trident-reco/security-reco.html["Trident如何与NVE和NAE配合使用"]。 | "false"*如果指定，请将ASA R2*的设置为 `true`。 
 
 
-| `luksEncryption` | 启用LUKS加密。请参阅 link:../trident-reco/security-luks.html["使用Linux统一密钥设置(LUKS)"]。NVMe/TCP不支持使用此类数据加密。 | 对于ASA R2、将""设置为 `false`。 
+| `luksEncryption` | 启用LUKS加密。请参阅 link:../trident-reco/security-luks.html["使用Linux统一密钥设置(LUKS)"]。 | 对于ASA R2、将""设置为 `false`。 
 
 
 | `tieringPolicy` | 使用"none"的分层策略*请勿为ASA R2*指定。 |  
