@@ -905,7 +905,6 @@
   <block id="710f95d40d121f27f89b0faa6e178133" category="paragraph">Trident支持多个容器引擎和流程编排程序、其中包括：</block>
   <block id="7cc1edf2116d94e97b8f4a69079de132" category="list-text">Anthos On－Prem (VMware)和Anthos on Bare metal 1.16</block>
   <block id="30712450d512dae0e7becb73c6a439fb" category="list-text">Kubbernetes 1.26 - 1.32</block>
-  <block id="d858eab1cb0b74aa1e6d052d7c06bd76" category="list-text">OpenShift 4.10 - 4.18</block>
   <block id="42113cf11e30b764619d3a98db65262d" category="list-text">R润 彻Kubernetes Engine 2 (RKE2) v1.26.7+rke2r1、v1.28.5+rke2r1</block>
   <block id="201eb37826a33e35adff9119f25946bd" category="paragraph">以下版本支持 Trident 操作符：</block>
   <block id="e42907190e2666646d57ade5c061e6e2" category="paragraph">Trident还可以与许多其他完全托管和自行管理的Kubernetes产品配合使用、包括Google Kubernetes Engine (GKE)、Amazon Elatic Kubernetes Services (EKS)、Azure Kubernetes Service (AKS)、MiranT斯Kubernetes Engine (MKE)和VMware Tanzu产品组合。</block>
@@ -5498,4 +5497,6 @@
   <block id="f18a50f02f48551895d57b81dd288142" category="sidebar">在命名空间之间共享NFS卷</block>
   <block id="62486fa65fc31c383ace8989549632ad" category="sidebar">使用快照</block>
   <block id="b71ccf1062cee8c376a7eb37e3c42603" category="cell">启用LUKS加密。请参阅 <block ref="569f9f91cdcc19909b8acbf6f423daf7" category="inline-link-macro-rx"></block>。</block>
+  <block id="f7e1bdb9d12dcb4909e8a56dd591da30" category="list-text">OpenShift 4.13 - 4.18</block>
+  <block id="9655e6779bbfb76d89c5ff39269da4db" category="list-text">OpenShift 4.13-4.18</block>
 </blocks>
