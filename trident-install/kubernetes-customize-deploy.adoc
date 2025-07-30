@@ -118,9 +118,6 @@ WARNING: `spec.namespace`在中指定 `TridentOrchestrator`以表示安装Triden
 
 
 | `nodePrep` | 使Trident能够使Kubbernetes集群的节点做好准备、以便使用指定的数据存储协议管理卷。*目前， `iscsi`是唯一支持的值。* |  
-
-
-| `enableAutoBackendConfig` | 启用自动后端配置、从而根据输入参数无缝创建后端和存储类。 | 无默认值；可选 
 |===
 
 NOTE: 有关格式化POD参数的详细信息，请参阅link:https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/["将 Pod 分配给节点"^]。
