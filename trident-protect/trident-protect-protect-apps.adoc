@@ -201,16 +201,17 @@ NOTE: 如果在应用程序定义中明确引用了集群范围的资源、或�
 ** *spec.snapshotretention *：要保留的快照数。零表示不应创建任何快照。
 ** *。spec.granularity*:计划的运行频率。可能值以及必需的关联字段：
 +
-*** `hourly` (要求您指定 `spec.minute`)
-*** `daily` (要求您指定 `spec.minute` 和 `spec.hour`)
-*** `weekly`(要求您指定 `spec.minute, spec.hour`、和 `spec.dayOfWeek`)
-*** `monthly`(要求您指定 `spec.minute, spec.hour`、和 `spec.dayOfMonth`)
+*** `Hourly`（要求您指定 `spec.minute`)
+*** `Daily`（要求您指定 `spec.minute`和 `spec.hour`)
+*** `Weekly`（要求您指定 `spec.minute, spec.hour`， 和 `spec.dayOfWeek`)
+*** `Monthly`（要求您指定 `spec.minute, spec.hour`， 和 `spec.dayOfMonth`)
+*** `Custom`
 
 
-** *spec.dayOfMonth*：(_可 选_)计划应运行的日期(1 - 31)。如果粒度设置为，则需要此字段 `monthly`。
-** *spec.dayOfWeek*：(_可 选_)计划应运行的日期(0到7)。值0或7表示星期日。如果粒度设置为，则需要此字段 `weekly`。
-** *spec.hour *：(_可 选_)计划应运行的时间(0 - 23)。如果粒度设置为、或，则需要此字段 `daily` `weekly` `monthly`。
-** *spec.minute：(_可 选_)计划应运行的分钟(0 - 59)。如果粒度设置为、、或，则需要此字段 `hourly` `daily` `weekly` `monthly`。
+** *spec.dayOfMonth*：（可选）计划应运行的月份日期（1 - 31）。如果粒度设置为 `Monthly`。
+** *spec.dayOfWeek*：（可选）计划应运行的星期几（0 - 7）。值 0 或 7 表示星期日。如果粒度设置为 `Weekly`。
+** *spec.hour*：（可选）计划应运行的小时数（0 - 23）。如果粒度设置为 `Daily`， `Weekly` ， 或者 `Monthly`。
+** *spec.minute*：（可选）计划应运行的小时中的分钟数（0 - 59）。如果粒度设置为 `Hourly`， `Daily` ， `Weekly` ， 或者 `Monthly`。
 +
 [source, yaml]
 ----
@@ -226,7 +227,7 @@ spec:
   appVaultRef: appvault-name
   backupRetention: "15"
   snapshotRetention: "15"
-  granularity: <monthly>
+  granularity: Monthly
   dayOfMonth: "1"
   dayOfWeek: "0"
   hour: "0"
