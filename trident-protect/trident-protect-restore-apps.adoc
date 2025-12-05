@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: trident-protect/trident-protect-restore-apps.html 
 keywords: trident, protect, restore, data, backup 
-summary: 您可以使用Trident Protect从快照或备份还原应用程序。将应用程序还原到同一集群时，从现有快照进行还原的速度会更快。 
+summary: 您可以使用Trident Protect 从快照或备份中恢复您的应用程序。将应用程序恢复到同一集群时，从现有快照恢复速度会更快。 
 ---
-= 使用Trident Protect还原应用程序
+= 使用Trident Protect 恢复应用程序
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 您可以使用Trident Protect从快照或备份还原应用程序。�
 
 
 [role="lead"]
-您可以使用Trident Protect从快照或备份还原应用程序。将应用程序还原到同一集群时，从现有快照进行还原的速度会更快。
+您可以使用Trident Protect 从快照或备份中恢复您的应用程序。将应用程序恢复到同一集群时，从现有快照恢复速度会更快。
 
 
 NOTE: 还原应用程序时、为该应用程序配置的所有执行挂钩都会随该应用程序还原。如果存在还原后执行挂钩、则它会在还原操作中自动运行。
@@ -34,7 +34,7 @@ NOTE: 如果您使用Red Hat OpenShift、请务必注意命名空间标注在Ope
 ----
 kubectl set env -n trident-protect deploy/trident-protect-controller-manager RESTORE_SKIP_NAMESPACE_ANNOTATIONS=<annotation_key_to_skip_1>,<annotation_key_to_skip_2>
 ----
-如果您使用带有标志的Helm安装源应用程序，则会对标签键进行 `--create-namespace`特殊处理 `name`。在还原或故障转移过程中、Trident Protect会将此标签复制到目标命名空间、但如果源命名空间中的值与源命名空间匹配、则会将此值更新为目标命名空间值。如果此值与源命名空间不匹配、则会将其复制到目标命名空间、而不会发生任何更改。
+如果您使用 Helm 安装了源应用程序， `--create-namespace`国旗，给予特殊待遇 `name`标签键。在恢复或故障转移过程中， Trident Protect 会将此标签复制到目标命名空间，但如果源命名空间的值与源命名空间的值匹配，则会将值更新为目标命名空间的值。如果此值与源命名空间不匹配，则会将其复制到目标命名空间，而不做任何更改。
 
 
 
@@ -102,7 +102,7 @@ kubectl set env -n trident-protect deploy/trident-protect-controller-manager RES
 
 == 从备份还原到其他命名空间
 
-使用BackupRestore CR将备份还原到其他命名空间时、Trident Protect会将应用程序还原到新命名空间中、并为还原的应用程序创建应用程序CR。要保护已还原的应用程序、请创建按需备份或快照、或者制定保护计划。
+当您使用 BackupRestore CR 将备份还原到不同的命名空间时， Trident Protect 会在新的命名空间中还原应用程序，并为还原的应用程序创建一个应用程序 CR。为了保护已恢复的应用程序，可以创建按需备份或快照，或者制定保护计划。
 
 
 NOTE: 将备份还原到具有现有资源的其他命名空间不会更改与备份中的资源共享名称的任何资源。要还原备份中的所有资源、请删除并重新创建目标命名空间、或者将备份还原到新命名空间。
@@ -115,7 +115,7 @@ NOTE: 将备份还原到具有现有资源的其他命名空间不会更改与�
 
 
 
-NOTE: 在使用Koria作为数据移动工具还原备份时、您可以选择在CR中指定标注、也可以使用命令行界面控制Koria使用的主存储的行为。有关可配置选项的详细信息、请参见 https://kopia.io/docs/getting-started/["文档"^]。有关使用Trident Protect命令行界面指定标注的详细信息、请使用 `tridentctl-protect create --help`命令。
+NOTE: 当您使用 Kopia 作为数据移动器恢复备份时，您可以选择在 CR 中或使用 CLI 指定注释来控制 Kopia 使用的临时存储的行为。请参阅 https://kopia.io/docs/getting-started/["文档"^]有关您可以配置的选项的更多信息。使用 `tridentctl-protect create --help`有关使用Trident Protect CLI 指定注释的更多信息，请参阅命令。
 
 [role="tabbed-block"]
 ====
@@ -159,7 +159,7 @@ spec:
 . (_可 选_)如果只需要选择要还原的应用程序的某些资源、请添加包含或排除带有特定标签的资源的筛选：
 +
 
-NOTE: Trident Protect会自动选择某些资源、因为这些资源与您选择的资源之间存在关系。例如、如果您选择永久性卷请求资源、并且该资源具有关联的POD、则Trident Protect也会还原关联的POD。
+NOTE: Trident Protect 会自动选择一些资源，因为它们与您选择的资源存在关联。例如，如果您选择持久卷声明资源并且它有一个关联的 pod， Trident Protect 还会恢复关联的 pod。
 
 +
 ** *resourceFilter.resourceSourcedionCritera*：(筛选时需要)使用 `Include`或包含或 `Exclude`排除资源匹配备程序中定义的资源。添加以下resourceMatchers参数以定义要包括或排除的资源：
@@ -240,7 +240,7 @@ tridentctl-protect create backuprestore <my_restore_name> \
 
 
 
-NOTE: 在使用Koria作为数据移动工具还原备份时、您可以选择在CR中指定标注、也可以使用命令行界面控制Koria使用的主存储的行为。有关可配置选项的详细信息、请参见 https://kopia.io/docs/getting-started/["文档"^]。有关使用Trident Protect命令行界面指定标注的详细信息、请使用 `tridentctl-protect create --help`命令。
+NOTE: 当您使用 Kopia 作为数据移动器恢复备份时，您可以选择在 CR 中或使用 CLI 指定注释来控制 Kopia 使用的临时存储的行为。请参阅 https://kopia.io/docs/getting-started/["文档"^]有关您可以配置的选项的更多信息。使用 `tridentctl-protect create --help`有关使用Trident Protect CLI 指定注释的更多信息，请参阅命令。
 
 [role="tabbed-block"]
 ====
@@ -281,7 +281,7 @@ spec:
 . (_可 选_)如果只需要选择要还原的应用程序的某些资源、请添加包含或排除带有特定标签的资源的筛选：
 +
 
-NOTE: Trident Protect会自动选择某些资源、因为这些资源与您选择的资源之间存在关系。例如、如果您选择永久性卷请求资源、并且该资源具有关联的POD、则Trident Protect也会还原关联的POD。
+NOTE: Trident Protect 会自动选择一些资源，因为它们与您选择的资源存在关联。例如，如果您选择持久卷声明资源并且它有一个关联的 pod， Trident Protect 还会恢复关联的 pod。
 
 +
 ** *resourceFilter.resourceSourcedionCritera*：(筛选时需要)使用 `Include`或包含或 `Exclude`排除资源匹配备程序中定义的资源。添加以下resourceMatchers参数以定义要包括或排除的资源：
@@ -354,7 +354,7 @@ tridentctl-protect create backupinplacerestore <my_restore_name> \
 如果原始集群出现问题、您可以将备份还原到其他集群。
 
 
-NOTE: 在使用Koria作为数据移动工具还原备份时、您可以选择在CR中指定标注、也可以使用命令行界面控制Koria使用的主存储的行为。有关可配置选项的详细信息、请参见 https://kopia.io/docs/getting-started/["文档"^]。有关使用Trident Protect命令行界面指定标注的详细信息、请使用 `tridentctl-protect create --help`命令。
+NOTE: 当您使用 Kopia 作为数据移动器恢复备份时，您可以选择在 CR 中或使用 CLI 指定注释来控制 Kopia 使用的临时存储的行为。请参阅 https://kopia.io/docs/getting-started/["文档"^]有关您可以配置的选项的更多信息。使用 `tridentctl-protect create --help`有关使用Trident Protect CLI 指定注释的更多信息，请参阅命令。
 
 .开始之前
 确保满足以下前提条件：
@@ -370,7 +370,7 @@ NOTE: 在使用Koria作为数据移动工具还原备份时、您可以选择在
 
 
 .步骤
-. 使用Trident Protect命令行界面插件检查目标集群上AppVault CR的可用性：
+. 使用Trident Protect CLI 插件检查目标集群上 AppVault CR 的可用性：
 +
 [source, console]
 ----
@@ -478,7 +478,7 @@ tridentctl-protect create backuprestore <restore_name> \
 
 == 从快照还原到其他命名空间
 
-您可以使用自定义资源(CR)文件从快照将数据还原到其他命名空间或原始源命名空间。使用SnapshotRestore CR将快照还原到其他命名空间时、Trident Protect会将应用程序还原到新命名空间中、并为还原的应用程序创建应用程序CR。要保护已还原的应用程序、请创建按需备份或快照、或者制定保护计划。
+您可以使用自定义资源 (CR) 文件从快照恢复数据，恢复到不同的命名空间或原始源命名空间。当您使用 SnapshotRestore CR 将快照还原到不同的命名空间时， Trident Protect 会在新的命名空间中还原应用程序，并为还原的应用程序创建一个应用程序 CR。为了保护已恢复的应用程序，可以创建按需备份或快照，或者制定保护计划。
 
 .开始之前
 确保AWS会话令牌到期时间足以执行任何长时间运行的S3还原操作。如果令牌在还原操作期间过期、则操作可能会失败。
@@ -531,7 +531,7 @@ spec:
 . (_可 选_)如果只需要选择要还原的应用程序的某些资源、请添加包含或排除带有特定标签的资源的筛选：
 +
 
-NOTE: Trident Protect会自动选择某些资源、因为这些资源与您选择的资源之间存在关系。例如、如果您选择永久性卷请求资源、并且该资源具有关联的POD、则Trident Protect也会还原关联的POD。
+NOTE: Trident Protect 会自动选择一些资源，因为它们与您选择的资源存在关联。例如，如果您选择持久卷声明资源并且它有一个关联的 pod， Trident Protect 还会恢复关联的 pod。
 
 +
 ** *resourceFilter.resourceSourcedionCritera*：(筛选时需要)使用 `Include`或包含或 `Exclude`排除资源匹配备程序中定义的资源。添加以下resourceMatchers参数以定义要包括或排除的资源：
@@ -653,7 +653,7 @@ spec:
 . (_可 选_)如果只需要选择要还原的应用程序的某些资源、请添加包含或排除带有特定标签的资源的筛选：
 +
 
-NOTE: Trident Protect会自动选择某些资源、因为这些资源与您选择的资源之间存在关系。例如、如果您选择永久性卷请求资源、并且该资源具有关联的POD、则Trident Protect也会还原关联的POD。
+NOTE: Trident Protect 会自动选择一些资源，因为它们与您选择的资源存在关联。例如，如果您选择持久卷声明资源并且它有一个关联的 pod， Trident Protect 还会恢复关联的 pod。
 
 +
 ** *resourceFilter.resourceSourcedionCritera*：(筛选时需要)使用 `Include`或包含或 `Exclude`排除资源匹配备程序中定义的资源。添加以下resourceMatchers参数以定义要包括或排除的资源：

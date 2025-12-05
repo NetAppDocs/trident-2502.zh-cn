@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: trident-protect/trident-protect-customize-installation.html 
-keywords: customize, trident protect, resource limits, security context constraints, SCC, NetApp AutoSupport, proxy connection, helm, helm chart, helm upgrade 
-summary: 自定义Trident Protect的默认设置以满足您的特定需求。 
+keywords: customize, trident Protect, resource limits, security context constraints, SCC, NetApp AutoSupport, proxy connection, helm, helm chart, helm upgrade 
+summary: 自定义Trident Protect 的默认设置，以满足您的特定需求。 
 ---
-= 自定义Trident Protect安装
+= 定制Trident Protect 安装
 :hardbreaks:
 :allow-uri-read: 
 :icons: font
@@ -12,17 +12,17 @@ summary: 自定义Trident Protect的默认设置以满足您的特定需求。
 
 
 [role="lead"]
-您可以自定义Trident Protect的默认配置、以满足您环境的特定要求。
+您可以自定义Trident Protect 的默认配置，以满足您环境的特定要求。
 
 
 
-== 指定Trident Protect容器资源限制
+== 指定Trident Protect 容器资源限制
 
-安装Trident Protect后、您可以使用配置文件为Trident Protect容器指定资源限制。通过设置资源限制、您可以控制Trident Protect操作占用的集群资源量。
+安装Trident Protect 后，您可以使用配置文件来指定Trident Protect 容器的资源限制。设置资源限制可以控制Trident Protect 操作消耗集群资源的程度。
 
 .步骤
 . 创建一个名为的文件 `resourceLimits.yaml`。
-. 根据您的环境需求、使用Trident Protect容器的资源限制选项填充文件。
+. 根据您的环境需求，在文件中填充Trident Protect 容器的资源限制选项。
 +
 以下示例配置文件显示了可用设置、并包含每个资源限制的默认值：
 
@@ -89,7 +89,7 @@ helm upgrade trident-protect -n trident-protect netapp-trident-protect/trident-p
 
 == 自定义安全上下文约束
 
-安装Trident Protect后、您可以使用配置文件修改Trident Protect容器的OpenShift安全上下文约束(SCC)。这些限制为Red Hat OpenShift集群中的Pod定义了安全限制。
+安装Trident Protect 后，您可以使用配置文件来修改Trident Protect 容器的 OpenShift 安全上下文约束 (SCC)。这些约束定义了 Red Hat OpenShift 集群中 pod 的安全限制。
 
 .步骤
 . 创建一个名为的文件 `sccconfig.yaml`。
@@ -134,16 +134,16 @@ helm upgrade trident-protect netapp-trident-protect/trident-protect -f sccconfig
 
 
 
-== 为Trident Protect配置NetApp AutoSupport连接
+== 配置NetApp AutoSupport连接以启用Trident Protect
 
-您可以通过为连接配置代理来更改Trident Protect连接到NetApp支持以上传支持包的方式。您可以根据需要将代理配置为使用安全或不安全连接。
+您可以配置连接代理来更改Trident Protect 连接到NetApp Support 以上传支持包的方式。您可以根据需要将代理配置为使用安全连接或不安全连接。
 
 [role="tabbed-block"]
 ====
 .配置安全代理连接
 --
 .步骤
-. 为Trident Protect支持包上传配置安全代理连接：
+. 为Trident Protect 支持包上传配置安全代理连接：
 +
 [source, console]
 ----
@@ -155,7 +155,7 @@ helm upgrade trident-protect -n trident-protect netapp-trident-protect/trident-p
 .配置不安全的代理连接
 --
 .步骤
-. 为跳过Trident验证的TLS Protect支持包上传配置不安全的代理连接：
+. 配置一个不安全的代理连接，用于上传Trident Protect 支持包，跳过 TLS 验证：
 +
 [source, console]
 ----
@@ -167,9 +167,9 @@ helm upgrade trident-protect -n trident-protect netapp-trident-protect/trident-p
 ====
 
 
-== 将Trident保护Pod限制为特定节点
+== 将Trident Protect Pod 限制在特定节点上
 
-您可以使用Kubenetes nodeSelecte节点选择约束根据节点标签控制哪些节点有资格运行Trident Protect Pod。默认情况下、Trident Protect仅限于运行Linux的节点。您可以根据需要进一步自定义这些限制。
+您可以使用 Kubernetes nodeSelector 节点选择约束，根据节点标签来控制哪些节点有资格运行Trident Protect pod。默认情况下， Trident Protect 仅限于运行 Linux 的节点。您可以根据需要进一步自定义这些限制条件。
 
 .步骤
 . 创建一个名为的文件 `nodeSelectorConfig.yaml`。
@@ -195,12 +195,12 @@ helm upgrade trident-protect -n trident-protect netapp-trident-protect/trident-p
 
 
 
-== 禁用每日Trident Protect AutoSupport捆绑包上传
+== 禁用每日Trident ProtectAutoSupport捆绑包上传。
 
-您也可以禁用计划的每日Trident Protect AutoSupport支持包上传。
+您也可以选择禁用每日定期上传的Trident Protect AutoSupport支持包。
 
 
-NOTE: 默认情况下、Trident Protect会收集有助于处理您可能创建的任何NetApp支持案例的支持信息、包括有关集群和托管应用程序的日志、指标和拓扑信息。Trident Protect会按每日计划将这些支持包发送给NetApp。您可以随时手动link:trident-protect-generate-support-bundle.html["生成支持包"]执行此操作。
+NOTE: 默认情况下， Trident Protect 会收集有助于处理您可能提交的任何NetApp支持案例的支持信息，包括集群和受管应用程序的日志、指标和拓扑信息。 Trident Protect 会按计划每日向NetApp发送这些支持包。您可以手动操作link:trident-protect-generate-support-bundle.html["生成支持包"]随时。
 
 .步骤
 . 创建一个名为的文件 `autosupportconfig.yaml`。

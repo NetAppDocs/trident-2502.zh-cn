@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: trident-protect/trident-protect-appvault-custom-resources.html 
 keywords: trident. appvault, custom, protect, kubernetes 
-summary: '用于Trident Protect的存储分段自定义资源(CR)称为AppVault。AppVault是存储分段的声明性Kubarnetes工作流表示形式。' 
+summary: 'Trident Protect 的存储桶自定义资源 (CR) 被称为 AppVault。AppVault 是存储桶的声明式 Kubernetes 工作流表示。' 
 ---
-= 使用Trident Protect AppVault对象管理分段
+= 使用Trident Protect AppVault 对象来管理存储桶。
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: '用于Trident Protect的存储分段自定义资源(CR)称为AppVault�
 
 
 [role="lead"]
-用于Trident Protect的存储分段自定义资源(CR)称为AppVault。AppVault对象是存储分段的声明性Kubarnetes工作流表示形式。AppVault CR包含在备份、快照、还原操作和SnapMirror复制等保护操作中使用存储分段所需的配置。只有管理员才能创建AppVault。
+Trident Protect 的存储桶自定义资源 (CR) 被称为 AppVault。AppVault 对象是存储桶的声明性 Kubernetes 工作流表示。AppVault CR 包含存储桶在保护操作（例如备份、快照、恢复操作和SnapMirror复制）中使用的必要配置。只有管​​理员才能创建应用保险库。
 
-在对应用程序执行数据保护操作时、您需要手动或使用命令行创建AppVault CR、并且AppVault CR需要驻留在安装了Trident Protect的集群上。AppVault CR特定于您的环境；您可以使用此页面上的示例作为创建AppVault CRS的指南。
+在对应用程序执行数据保护操作时，您需要手动或使用命令行创建 AppVault CR，并且 AppVault CR 需要位于安装了Trident Protect 的集群上。  AppVault CR 是针对您的环境的；您可以参考此页面上的示例来创建 AppVault CR。
 
 
 
@@ -28,17 +28,17 @@ summary: '用于Trident Protect的存储分段自定义资源(CR)称为AppVault�
 
 === 数据移动工具存储库密码
 
-在使用CRS或Trident Protect命令行界面插件创建AppVault对象时、您可以选择指示Trident Protect使用包含用于Restic和Koria存储库加密的自定义密码的Kubernetes机密。如果未指定密钥、Trident Protect将使用默认密码。
+当您使用 CR 或Trident Protect CLI 插件创建 AppVault 对象时，您可以选择性地指示Trident Protect 使用包含 Restic 和 Kopia 存储库加密自定义密码的 Kubernetes secret。如果您不指定密钥， Trident Protect 将使用默认密码。
 
 * 手动创建 AppVault CR 时，使用 *spec.dataMoverPasswordSecretRef* 字段指定密钥。
-* 使用 Trident Protect CLI 创建 AppVault 对象时，使用 `--data-mover-password-secret-ref`参数来指定秘密。
+* 使用Trident Protect CLI 创建 AppVault 对象时，请使用 `--data-mover-password-secret-ref`用于指定密钥的参数。
 
 
 
 
 ==== 创建数据移动工具存储库密码密钥
 
-使用以下示例创建密码密钥。创建AppVault对象时、您可以指示Trident Protect使用此密钥向数据移动工具存储库进行身份验证。
+请参考以下示例创建密码密钥。创建 AppVault 对象时，您可以指示Trident Protect 使用此密钥向数据移动器存储库进行身份验证。
 
 
 NOTE: 根据所使用的数据移动工具、您只需包含该数据移动工具的相应密码即可。例如、如果您正在使用Restic、并且将来不打算使用KONIA、则在创建密钥时只能包含Restic密码。
@@ -76,7 +76,7 @@ kubectl create secret generic my-optional-data-mover-secret \
 
 === S3 兼容存储 IAM 权限
 
-当您访问与 S3 兼容的存储（例如 Amazon S3、Generic S3）时，  https://docs.netapp.com/us-en/storagegrid/s3/index.html["StorageGRID S3"^] ， 或者 https://docs.netapp.com/us-en/ontap/s3-config/["ONTAP S3"^]使用 Trident 保护时，您需要确保您提供的用户凭证具有访问存储桶所需的权限。以下是一个策略示例，该策略授予使用 Trident 保护访问所需的最低权限。您可以将此策略应用于管理与 S3 兼容的存储桶策略的用户。
+当您访问与 S3 兼容的存储（例如 Amazon S3、通用 S3）时， https://docs.netapp.com/us-en/storagegrid/s3/index.html["StorageGRID S3"^] ， 或者 https://docs.netapp.com/us-en/ontap/s3-config/["ONTAP S3"^]使用Trident Protect 时，您需要确保提供的用户凭据具有访问存储桶的必要权限。以下是授予使用Trident Protect 进行访问所需的最低权限的策略示例。您可以将此策略应用于管理 S3 兼容存储桶策略的用户。
 
 [source, json]
 ----
@@ -353,7 +353,7 @@ spec:
 ====
 
 
-=== 使用Trident Protect命令行界面创建AppVault的示例
+=== 使用Trident Protect CLI 创建 AppVault 的示例
 
 您可以使用以下命令行界面命令示例为每个提供程序创建AppVault CRS。
 
@@ -444,7 +444,7 @@ tridentctl-protect create vault StorageGridS3 <vault-name> \
 
 == 查看AppVault信息
 
-您可以使用Trident保护命令行界面插件查看有关在集群上创建的AppVault对象的信息。
+您可以使用Trident Protect CLI 插件查看有关您在集群上创建的 AppVault 对象的信息。
 
 .步骤
 . 查看AppVault对象的内容：
@@ -477,7 +477,7 @@ tridentctl-protect get appvaultcontent gcp-vault \
 ----
 . (可选)要查看每个资源的AppVaultPath，请使用标志 `--show-paths`。
 +
-只有在Trident Protect Helm安装中指定了集群名称时、此表第一列中的集群名称才可用。例如： `--set clusterName=production1`。
+只有在Trident Protect helm 安装中指定了集群名称时，表格第一列中的集群名称才可用。例如： `--set clusterName=production1` 。
 
 
 
@@ -507,7 +507,7 @@ kubectl delete appvault <appvault-name> \
 
 
 --
-.使用Trident Protect命令行界面删除AppVault
+.使用Trident Protect CLI 删除 AppVault
 --
 . 删除AppVault对象、替换 `appvault-name`为要删除的AppVault对象的名称：
 +

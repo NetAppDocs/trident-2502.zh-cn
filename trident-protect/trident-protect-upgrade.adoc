@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: trident-protect/trident-protect-upgrade.html 
 keywords: trident, protect, netapp, upgrade, new, version 
-summary: 您可以将Trident Protect升级到最新版本、以利用新功能或错误修复。 
+summary: 您可以将Trident Protect 升级到最新版本，以享受新功能或修复错误。 
 ---
-= 升级Trident Protect
+= 升级Trident保护
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: 您可以将Trident Protect升级到最新版本、以利用新功能�
 
 
 [role="lead"]
-您可以将Trident Protect升级到最新版本、以利用新功能或错误修复。
+您可以将Trident Protect 升级到最新版本，以享受新功能或修复错误。
 
-要升级Trident Protect、请执行以下步骤。
+要升级Trident Protect，请执行以下步骤。
 
 .步骤
 . 更新Trident Helm存储库：
@@ -31,7 +31,7 @@ helm repo update
 ----
 helm upgrade trident-protect-crds netapp-trident-protect/trident-protect-crds --version 100.2502.0  --namespace trident-protect
 ----
-. 升级Trident Protect：
+. 升级Trident保护：
 +
 [source, console]
 ----

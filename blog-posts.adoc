@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: blog-posts.html 
-keywords: Trident blogs, Trident protect blogs 
-summary: 您可以找到一些出色的NetApp Trident和Trident Protect博客。 
+keywords: Trident blogs, Trident Protect blogs 
+summary: 您可以找到一些很棒的NetApp Trident和Trident Protect 博客。 
 ---
-= Trident和Trident保护博客
+= Trident和Trident Protect 博客
 :hardbreaks:
 :allow-uri-read: 
 :icons: font
@@ -12,7 +12,7 @@ summary: 您可以找到一些出色的NetApp Trident和Trident Protect博客。
 
 
 [role="lead"]
-您可以在以下位置找到一些出色的NetApp Trident和Trident Protect博客：
+您可以在这里找到一些很棒的NetApp Trident和Trident Protect 博客：
 
 
 
@@ -29,7 +29,7 @@ summary: 您可以找到一些出色的NetApp Trident和Trident Protect博客。
 * 2025年3月13日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["为OpenShift虚拟化VM执行崩溃状态一致的备份和还原操作"^]
 * 2025年3月11日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Extending-GitOps-patterns-to-application-data-protection-with-NetApp-Trident/ba-p/459323["利用NetApp Trident将GitOps模式扩展到应用程序数据保护"^]
 * 2025年3月3日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Trident-25-02-Elevating-the-Red-Hat-OpenShift-Experience-with-Exciting-New/ba-p/459055["Trident 25.02：借助激动人心的新功能提升Red Hat OpenShift体验"^]
-* 2025年1月15日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-Trident-protect-role-based-access-control/ba-p/457837["介绍Trident Protect基于角色的访问控制"^]
-* 2024年11月11日： https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-tridentctl-protect-the-powerful-CLI-for-Trident-protect/ba-p/456494["推出trdentctrd protect：适用于Trident Protect的强大命令行界面"^]
-* 2024年11月11日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-driven-data-management-The-new-era-with-Trident-protect/ba-p/456395["Kubernetes驱动的数据管理：Trident Protect带来的新时代"^]
+* 2025年1月15日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-Trident-protect-role-based-access-control/ba-p/457837["隆重推出Trident Protect 基于角色的访问控制"^]
+* 2024年11月11日： https://community.netapp.com/t5/Tech-ONTAP-Blogs/Introducing-tridentctl-protect-the-powerful-CLI-for-Trident-protect/ba-p/456494["隆重推出 tridentctl protect： Trident Protect 的强大命令行界面"^]
+* 2024年11月11日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-driven-data-management-The-new-era-with-Trident-protect/ba-p/456395["Kubernetes驱动的数据管理： Trident Protect开启新时代"^]
 
