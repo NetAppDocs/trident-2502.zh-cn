@@ -649,7 +649,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 == 22.04中的变化
 
-NetApp 不断改进和完善其产品和服务。下面是Trident中的一些最新功能。有关以前版本的信息，请参阅 https://docs.netapp.com/us-en/trident/earlier-versions.html["文档的早期版本"]。
+NetApp 正在不断改进和增强其产品和服务。以下是 Trident 中的一些最新功能。有关以前的版本，请参阅早期版本的文档。
 
 
 IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp Files、则``location``config参数现在是一个必需的单个字段。
