@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: trident-get-started/kubernetes-deploy-operator-mirror.html 
+permalink: trident-install/kubernetes-deploy-operator-mirror.html 
 keywords: deploy, Trident, methods, operator, tridentctl, mirrored, registry, registries 
 summary: 您可以手动部署Trident操作员以安装Trident。此过程适用于将Trident所需的容器映像存储在私有注册表中的安装。 
 ---
@@ -38,10 +38,10 @@ summary: 您可以手动部署Trident操作员以安装Trident。此过程适用
 
 == 手动部署Trident操作员并安装Trident
 
-查看link:../trident-get-started/kubernetes-deploy.html["安装概述"]以确保满足安装前提条件、并为您的环境选择了正确的安装选项。
+请检查 link:trident-install/kubernetes-deploy.html["安装概述"] 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。
 
 .开始之前
-登录到Linux主机、并验证此主机管理的是正常运行的和link:requirements.html["支持的 Kubernetes 集群"^]、并且您具有必要的Privileges。
+登录到 Linux 主机并验证其是否正在管理工作和link:../trident-get-started/requirements.html["支持的 Kubernetes 集群"]并且您具有必要的权限。
 
 
 NOTE: 对于OpenShift，请在下面的所有示例中使用 `oc`而不是 `kubectl`，并首先通过运行或 `oc login -u kube-admin`以*system:admin*身份登录 `oc login -u system:admin`。

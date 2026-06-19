@@ -12,7 +12,7 @@ summary: 您可以使用操作员轻松升级现有的Trident安装。
 
 
 [role="lead"]
-您可以使用Trident操作员手动或使用Helm升级Trident。您可以从Trident操作员安装升级到另一个Trident操作员安装、也可以从安装升级 `tridentctl`到Trident操作员版本。在升级Trident操作员安装之前、请查看link:upgrade-trident.html#select-an-upgrade-method["选择升级方法"]。
+您可以使用 Trident 操作员手动或使用 Helm 升级 Trident。您可以从 Trident 操作员安装升级到另一个 Trident 操作员安装，或从 `tridentctl`安装升级到 Trident 操作员版本。在升级 Trident 操作员安装之前，请查看link:upgrade-trident.html#step-3-select-an-upgrade-method["选择升级方法"]。
 
 
 
@@ -26,7 +26,6 @@ NOTE: 要从使用命名空间作用域运算符（版本 20.07 至 20.10）安�
 .关于此任务
 ｛\f270通过｝｛\f270｛\f151、｝｛\f270｝｛\f270｝｛\f151、｝｛\f270｝｛\f270｝｛\f151、｝｛\f270通过｝｛\f151、｝｛\f270｝｛\f270｝｛\f151、｝｛\f270｝
 
-* 对于运行Kubbernetes 1.24的集群，请使用 link:https://github.com/NetApp/trident/tree/stable/v25.02/deploy/bundle_pre_1_25.yaml["捆绑包_pre_1_25.yaml"^]。
 * 对于运行Kubernetes 1.25或更高版本的集群，请使用 link:https://github.com/NetApp/trident/tree/stable/v25.02/deploy/bundle_post_1_25.yaml["捆绑包_后_ 1_25.yaml"^]。
 
 
@@ -83,7 +82,7 @@ helm mapkubeapis trident  --namespace trident
 
 
 .步骤
-. 如果您 link:../trident-get-started/kubernetes-deploy-helm.html#deploy-the-trident-operator-and-install-trident-using-helm["已使用Helm安装Trident"]使用，则可以使用 `helm upgrade trident netapp-trident/trident-operator --version 100.2502.0` 一步升级。如果您未添加Helm repo或无法使用它进行升级：
+. 如果您link:../trident-install/kubernetes-deploy-helm.html#deploy-the-trident-operator-and-install-trident-using-helm["已使用Helm安装Trident"]，您可以使用 `helm upgrade trident netapp-trident/trident-operator --version 100.2502.0`一步升级。如果您没有添加 Helm 存储库或无法使用它进行升级：
 +
 .. 从下载最新的Trident版本link:https://github.com/NetApp/trident/releases/latest["GitHub上的_assets_部分"^]。
 .. 使用 `helm upgrade` 命令、其中 `trident-operator-25.02.0.tgz` 反映了要升级到的版本。
@@ -108,7 +107,7 @@ NOTE: 如果您在初始安装期间设置了自定义选项(例如、为Trident
 您可以从安装升级到最新版本的Trident operator `tridentctl`。现有后端和PVC将自动可用。
 
 
-NOTE: 在切换安装方法之前，请查看link:../trident-get-started/kubernetes-deploy.html#moving-between-installation-methods["在安装方法之间移动"]。
+NOTE: 在切换安装方法之前，请查看 link:../trident-install/kubernetes-deploy.html#moving-between-installation-methods["在安装方法之间移动"]。
 
 .步骤
 . 下载最新版本的Trident。

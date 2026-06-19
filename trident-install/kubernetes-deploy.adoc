@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-permalink: trident-get-started/kubernetes-deploy.html 
+permalink: trident-install/kubernetes-deploy.html 
 keywords: deploy, Trident, methods, operator, tridentctl, helm, tanzu, vmware 
 summary: '您可以使用Trident操作员(手动或使用Helm)或与一起安装Trident `tridentctl`。本主题提供了有关为您选择正确安装过程的重要信息。' 
 ---
@@ -40,7 +40,7 @@ summary: '您可以使用Trident操作员(手动或使用Helm)或与一起安装
 
 无论您的安装路径如何、您都必须：
 
-* 对运行受支持的Kubernetes版本并启用了功能要求的受支持Kubernetes集群的完全权限。有关详细信息、请查看link:requirements.html["要求"]。
+* 运行受支持的 Kubernetes 版本的受支持的 Kubernetes 集群的完整权限，并启用了功能要求。查看 link:../trident-get-started/requirements.html["要求"] 了解详情。
 * 访问受支持的NetApp存储系统。
 * 能够从所有Kubernetes工作节点挂载卷。
 * 安装并配置为管理要使用的Kubornetes集群的Linux主机 `kubectl`(如果使用的是OpenShift、则为或 `oc`)。
@@ -55,7 +55,7 @@ TIP: 如果您还没有熟悉link:../trident-get-started/intro.html["基本概�
 
 == 选择安装方法
 
-选择适合您的安装方法。在做出决定之前、您还应查看的注意事项link:kubernetes-deploy.html#move-between-installation-methods["在方法之间移动"]。
+选择适合您的安装方法。您还应该在做出决定之前查看 link:kubernetes-deploy.html#moving-between-installation-methods["在方法之间移动"] 的注意事项。
 
 
 

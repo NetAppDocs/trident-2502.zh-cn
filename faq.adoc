@@ -62,7 +62,7 @@ Trident不依赖于其他NetApp软件产品、它可作为独立应用程序运�
 
 === Trident是否支持从私有注册表进行脱机安装？
 
-可以、Trident可以脱机安装。请参阅 link:../trident-get-started/kubernetes-deploy.html["了解Trident安装"^]。
+是的，Trident 可以脱机安装。请参阅 link:trident-install/kubernetes-deploy.html["了解Trident安装"]。
 
 
 
@@ -86,13 +86,13 @@ Trident从Kubednetes API服务器读取数据、以确定应用程序何时请�
 
 === Trident使用哪些角色和Privileges？
 
-通过使用三端技术支持安装程序、可以创建一个Kubernetes ClusterRole、此类ClusterRole可以对Kubernetes集群中的集群的PersentVolume、PersentVolumeClaim、StorageClass和机密资源具有特定访问权限。请参阅 link:../trident-get-started/kubernetes-customize-deploy-tridentctl.html["自定义tridentctl安装"^]。
+Trident 安装程序创建了一个 Kubernetes ClusterRole，它具有对 Kubernetes 集群的 PersistentVolume、PersistentVolumeClaim、StorageClass 和 Secret 资源的特定访问权限。请参阅 link:trident-install/kubernetes-customize-deploy-tridentctl.html["自定义tridentctl安装"]。
 
 
 
 === 是否可以在本地生成Trident用于安装的确切清单文件？
 
-如果需要、您可以在本地生成和修改Trident用于安装的确切清单文件。请参阅 link:trident-get-started/kubernetes-customize-deploy-tridentctl.html["自定义tridentctl安装"^]。
+如果需要，您可以在本地生成和修改 Trident 用于安装的确切清单文件。请参阅 link:trident-install/kubernetes-customize-deploy-tridentctl.html["自定义tridentctl安装"]。
 
 
 
