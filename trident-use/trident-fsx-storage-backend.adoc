@@ -13,6 +13,7 @@ summary: '通过将Trident与Amazon FSx for NetApp ONTAP结合使用、您可以
 
 
 
+[[ontap-san-and-nas-driver-integration]]
 == ONTAP SAN和NAS驱动程序集成
 
 要创建存储后端、您需要创建JSON或YAML格式的配置文件。该文件需要指定所需的存储类型(NAS或SAN)、文件系统和用于获取该文件的SVM以及如何向其进行身份验证。以下示例显示了如何定义基于NAS的存储以及如何使用AWS密钥将凭据存储到要使用的SVM：
@@ -100,6 +101,7 @@ backend-tbc-ontap-nas        tbc-ontap-nas        933e0071-66ce-4324-b9ff-f96d91
 
 
 
+[[fsx-for-ontap-driver-details]]
 == FSx for ONTAP驱动程序详细信息
 
 您可以使用以下驱动程序将Trident与Amazon FSx for NetApp ONTAP集成：
@@ -132,6 +134,7 @@ backend-fsx-ontap-nas   backend-fsx-ontap-nas   7a551921-997c-4c37-a1d1-f2f4c87f
 ----
 
 
+[[backend-advanced-configuration-and-examples]]
 == 后端高级配置和示例
 
 有关后端配置选项，请参见下表：
@@ -224,6 +227,7 @@ backend-fsx-ontap-nas   backend-fsx-ontap-nas   7a551921-997c-4c37-a1d1-f2f4c87f
 |===
 
 
+[[backend-configuration-options-for-provisioning-volumes]]
 == 用于配置卷的后端配置选项
 
 您可以在配置部分使用这些选项控制默认配置 `defaults`。有关示例，请参见以下配置示例。
@@ -270,6 +274,7 @@ backend-fsx-ontap-nas   backend-fsx-ontap-nas   7a551921-997c-4c37-a1d1-f2f4c87f
 |===
 
 
+[[prepare-to-provision-smb-volumes]]
 == 准备配置SMB卷
 
 您可以使用驱动程序配置SMB卷 `ontap-nas`。完成以下步骤之前。<<ONTAP SAN和NAS驱动程序集成>>

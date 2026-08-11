@@ -16,6 +16,7 @@ Trident提供了一组Prometheus指标端点、可用于监控Trident性能。
 
 
 
+[[overview]]
 == 概述
 
 通过Trident提供的指标、您可以执行以下操作：
@@ -36,12 +37,14 @@ NOTE: 默认情况下、Trident的指标会在端点的 `/metrics`目标端口�
 
 
 
+[[step-1-define-a-prometheus-target]]
 == 第 1 步：定义 Prometheus 目标
 
 您应定义Prometheus目标、以收集指标并获取有关Trident管理的后端及其创建的卷等的信息。这 https://netapp.io/2020/02/20/prometheus-and-trident/["博客"^]说明了如何将Prometheus和Grafana与Trident结合使用来检索指标。本博客介绍了如何以操作员身份在Kubelnetes集群中运行Prometheus、以及如何创建ServiceMonitor来获取Trident指标。
 
 
 
+[[step-2-create-a-prometheus-servicemonitor]]
 == 第 2 步：创建 Prometheus ServiceMonitor
 
 要使用Trident指标、您应创建一个Prometheus ServiceMonitor来监控 `trident-csi`服务并侦听 `metrics`端口。示例 ServiceMonitor 如下所示：
@@ -73,6 +76,7 @@ spec:
 
 
 
+[[step-3-query-trident-metrics-with-promql]]
 == 第 3 步：使用 PromQL 查询 Trident 指标
 
 PromQL 非常适合创建返回时间序列或表格数据的表达式。
@@ -81,6 +85,7 @@ PromQL 非常适合创建返回时间序列或表格数据的表达式。
 
 
 
+[[get-trident-health-information]]
 === 获取 Trident 运行状况信息
 
 * **来自Trident的HTTP 2XX响应的百分比**
@@ -106,6 +111,7 @@ sum by (operation) (trident_operation_duration_milliseconds_sum{success="true"})
 ----
 
 
+[[get-trident-usage-information]]
 === 获取Trident使用情况信息
 
 * 卷大小 * 平均值 *
@@ -124,6 +130,7 @@ sum (trident_volume_allocated_bytes) by (backend_uuid)
 ----
 
 
+[[get-individual-volume-usage]]
 === 获取单个卷的使用情况
 
 
@@ -138,6 +145,7 @@ kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100
 ----
 
 
+[[learn-about-trident-autosupport-telemetry]]
 == 了解Trident AutoSupport遥测
 
 默认情况下、Trident会每天向NetApp发送Prometheus指标和基本后端信息。
@@ -175,6 +183,7 @@ items:
 
 
 
+[[disable-trident-metrics]]
 == 禁用Trident指标
 
 要**禁止**报告**度量指标，应生成自定义YAML (使用 `--generate-custom-yaml`标志)并对其进行编辑，以删除 `--metrics`为树枝调用的标志 `trident-main`。

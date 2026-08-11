@@ -16,6 +16,7 @@ summary: 您可以使用操作员轻松升级现有的Trident安装。
 
 
 
+[[upgrade-a-manual-installation]]
 == 升级手动安装
 
 您可以从集群范围的三端技术人员安装升级到另一个集群范围的三端技术人员安装。所有Trident 21.01及更高版本都使用集群范围的运算符。
@@ -57,6 +58,7 @@ kubectl create -f 25.02.0/trident-installer/deploy/<bundle.yaml> -n trident
 
 
 
+[[upgrade-a-helm-installation]]
 == 升级Helm安装
 
 您可以升级Trident Helm安装。
@@ -102,6 +104,7 @@ NOTE: 如果您在初始安装期间设置了自定义选项(例如、为Trident
 
 
 
+[[upgrade-from-a-tridentctl-installation-to-trident-operator]]
 == 从安装升级 `tridentctl`到Trident Operator
 
 您可以从安装升级到最新版本的Trident operator `tridentctl`。现有后端和PVC将自动可用。

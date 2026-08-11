@@ -1230,7 +1230,6 @@
   <block id="dcb987a2d08ee1a9198d1183b1a63a96" category="inline-link-macro">在方法之间移动</block>
   <block id="bd1cc9ebdb33ed22a54815219f97af08" category="section-title">使用Trident运算符</block>
   <block id="b2ad529645b5bea51c4bcd516a5c5c8f" category="inline-link-macro">自定义Trident操作员部署</block>
-  <block id="4561600b99ad801aedaa0ed3d3f3d7dd" category="paragraph">无论是手动部署还是使用Helm部署、Trident操作员都是简化安装和动态管理Trident资源的绝佳方式。您甚至可以<block ref="5290e5312b651716bedf8a83ec5a6467" category="inline-link-macro-rx"></block>使用自定义资源(CR)中的属性<block ref="ae61bf6af1a7406b62c72a4bef1ab62d" prefix=" " category="inline-code"></block>。</block>
   <block id="9d2c1d92b0ecb606394b40e3553d07d2" category="paragraph">使用Trident运算符的优势包括：</block>
   <block id="4c4c1456097b6c9eca1c708465c381be" category="example-title">&lt;strong&gt; Trident对象&lt;/strong&gt;</block>
   <block id="9bb09894435f05fa667865ab4c45ace7" category="paragraph">Trident操作符会自动为您的Kubernetes版本创建以下对象。</block>
@@ -5440,8 +5439,6 @@
   <block id="714ad635b7b855ea6b214ed7b344a93a" category="paragraph">Cloud Volumes ONTAP是一款纯软件存储设备，可在云中运行ONTAP数据管理软件。您可以将Cloud Volumes ONTAP用于生产工作负载、灾难恢复、DevOps、文件共享和数据库管理。它通过提供存储效率、高可用性、数据复制、数据分层和应用程序一致性，将企业存储扩展到云端。</block>
   <block id="77b3d37737668900e7a3090c236b1f43" category="paragraph"><block ref="edd2b7aa1c7509676e2980018fef6c49" category="inline-link-rx"></block> 是一种云原生文件服务，通过 NFS 提供 NAS 卷，具有全闪存性能。此服务可让任何工作负载（包括旧版应用程序）在 GCP 云中运行。它提供完全托管的服务，可提供一致的高性能、即时克隆、数据保护以及对 Google Compute Engine (GCE) 实例的安全访问。</block>
   <block id="365f044223bbae18d908189b4742ff4c" category="paragraph"><block ref="365f044223bbae18d908189b4742ff4c" category="inline-link-macro-rx"></block></block>
-  <block id="4deedcf505244b8bc6daab6ead8e8854" category="paragraph">请检查 <block ref="13fcb527df2ae485e2a7b3f3592d4d67" category="inline-link-macro-rx"></block> 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。</block>
-  <block id="3e258a7587bd27e216b90902e5d08696" category="paragraph">除了 <block ref="0095f892a8685f0db0b9b157339794fc" category="inline-link-macro-rx"></block> 之外，您还需要 <block ref="fc0cdbd8defe0c7175199dd05a0f8e76" category="inline-link-macro-rx"></block>。</block>
   <block id="e9d36c266026dc04d43783120d0a2d1d" category="paragraph">登录到 Linux 主机并验证其是否正在管理工作和<block ref="958ebeab180637e89445160bac2d22e7" category="inline-link-macro-rx"></block>并且您具有必要的权限。</block>
   <block id="6e0142dfd4a5236fbce5c22e4e30fc2b" category="paragraph">在开始安装之前，请登录到 Linux 主机并验证其是否正在管理工作，<block ref="958ebeab180637e89445160bac2d22e7" category="inline-link-macro-rx"></block>以及您是否具有必要的权限。</block>
   <block id="dde53589c85fa1215e4a3d3c3a0d6508" category="paragraph">请检查 <block ref="90e03a843b5d1f923d0ef6b32fbf11b0" category="inline-link-macro-rx"></block> 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。</block>
@@ -5477,4 +5474,7 @@
   <block id="4d7f894e8ec350a861c28ea984648f59" category="paragraph">要配置和使用<block ref="22ab900b028c044945b4dba56093fe8f" category="inline-link-rx"></block>后端，您需要以下内容：</block>
   <block id="9ea1dc44c501f59786a0dd2c5ebc2d21" category="list-text">Trident AutoSupport 不会收集或传输个人身份信息 (PII) 或个人信息。它附带<block ref="ea14b34590cee15ec565ad8fd8feca2e" category="inline-link-rx"></block>，不适用于 Trident 容器图像本身。您可以了解有关 NetApp 对数据安全和信任承诺的更多信息<block ref="ea3b01bc03342a227ac7c6848f1e44fa" category="inline-link-rx"></block>。</block>
   <block id="0aed33e870a02a203987e1f6cbeb75d8" category="list-text">使用 Trident 与<block ref="5990d744db8a85d254742635736f0912" category="inline-link-rx"></block>时可能遇到的一个常见问题是，租户和客户端密码来自权限不足的应用程序注册。有关 Trident 要求的完整列表，请参阅<block ref="afedf4ee56554ea6e6b54e6aa206680c" category="inline-link-macro-rx"></block>配置。</block>
+  <block id="218a0c4bd3daf2a2ce3574281b7ca0b2" category="paragraph">请检查 <block ref="d5658c9dfbfb4ef585182e92445a8919" category="inline-link-macro-rx"></block> 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。</block>
+  <block id="3b09004494ad8605a5dd0f3024d25e71" category="paragraph">除了 <block ref="664da4bd07fc6e33aa43f13bb999ea26" category="inline-link-macro-rx"></block> 之外，您还需要 <block ref="fc0cdbd8defe0c7175199dd05a0f8e76" category="inline-link-macro-rx"></block>。</block>
+  <block id="b7bec5d0d77ca93cd7a03308720c371e" category="paragraph">无论是手动部署还是使用 Helm，Trident 操作员都是简化安装和动态管理 Trident 资源的好方法。您甚至可以<block ref="a1f2adae0e8434fa57fbe3e21b52345e" category="inline-link-macro-rx"></block>使用<block ref="ae61bf6af1a7406b62c72a4bef1ab62d" prefix=" " category="inline-code"></block>自定义资源 (CR) 中的属性。</block>
 </blocks>

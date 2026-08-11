@@ -16,6 +16,7 @@ summary:
 
 
 
+[[google-cloud-netapp-volumes-driver-details]]
 == Google Cloud NetApp卷驱动程序详细信息
 
 Trident提供了 `google-cloud-netapp-volumes`用于与集群通信的驱动程序。支持的访问模式包括：_ReadWriteOnce_(RWO)、_ReadOnlyMany_(ROX)、_ReadWriteMany_(rwx)、_ReadWriteOncePod_(RWOP)。
@@ -37,6 +38,7 @@ Rwo、ROX、rwx、RWOP
 |===
 
 
+[[cloud-identity-for-gke]]
 == 适用于GKE的云身份
 
 通过云身份、Kubnetes Pod可以通过作为工作负载身份进行身份验证来访问Google Cloud资源、而不是提供明确的Google Cloud凭据。

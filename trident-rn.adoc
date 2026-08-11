@@ -19,10 +19,12 @@ WARNING:  `tridentctl`安装程序zip文件中提供的Linux二进制文件是�
 
 
 
+[[whats-new-in-25-02-1]]
 == 25.02.1中的新增功能
 
 
 
+[[trident]]
 === Trident
 
 
@@ -39,12 +41,14 @@ WARNING:  `tridentctl`安装程序zip文件中提供的Linux二进制文件是�
 
 
 
+[[changes-in-25-02]]
 == 25.02中的变化
 
 从Trident 25.02 开始，“新增功能”摘要提供了Trident和Trident Protect 版本的增强功能、修复和弃用详情。
 
 
 
+[[trident]]
 === Trident
 
 
@@ -94,6 +98,7 @@ WARNING:  `tridentctl`安装程序zip文件中提供的Linux二进制文件是�
 
 
 
+[[trident-protect]]
 === Trident保护
 
 NetApp Trident Protect 提供高级应用程序数据管理功能，增强了由NetApp ONTAP存储系统和NetApp Trident CSI 存储供应器支持的有状态 Kubernetes 应用程序的功能和可用性。
@@ -127,10 +132,12 @@ NetApp Trident Protect 提供高级应用程序数据管理功能，增强了由
 
 
 
+[[changes-in-24-10-1]]
 == 24.10.1 中的变化
 
 
 
+[[enhancements]]
 === 增强功能
 
 * *Kubernetes*：增加了对Kubernetes 1.32的支持。
@@ -139,6 +146,7 @@ NetApp Trident Protect 提供高级应用程序数据管理功能，增强了由
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了自动导出策略()中缺少的节点IP地址link:https://github.com/NetApp/trident/issues/965["问题描述#965"]。
@@ -149,10 +157,12 @@ NetApp Trident Protect 提供高级应用程序数据管理功能，增强了由
 
 
 
+[[changes-in-24-10]]
 == 24.10中的变化
 
 
 
+[[enhancements]]
 === 增强功能
 
 * Google Cloud NetApp卷驱动程序现已广泛适用于NFS卷、并支持区域感知型配置。
@@ -198,6 +208,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[fixes]]
 === 修复
 
 * *Kubernetes*：
@@ -214,6 +225,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[deprecations]]
 === 已弃用
 
 * * Kubernetes：*
@@ -226,16 +238,19 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[product-rebranding]]
 === 产品品牌重塑
 
 从24.10版开始、Astra Trident更名为Trident (NetApp Trident)。此品牌重塑不会影响Trident的任何功能、支持的平台或互操作性。
 
 
 
+[[changes-in-24-06]]
 == 24.06中的变化
 
 
 
+[[enhancements]]
 === 增强功能
 
 * **重要**： `limitVolumeSize` 现在，参数限制ONTAP经济型驱动程序中的qtree/LUN大小。使用新  `limitVolumePoolSize` 参数控制这些驱动程序中的FlexVol大小。link:https://github.com/NetApp/trident/issues/341["问题描述#341"]()。
@@ -262,6 +277,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了因事务陈旧而导致的Trident安装失败问题。
@@ -274,10 +290,12 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[changes-in-24-02]]
 == 24.02中的变化
 
 
 
+[[enhancements]]
 === 增强功能
 
 * 增加了对云身份的支持。
@@ -300,6 +318,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了未启用ACP时出现的ACP警告消息link:https://github.com/NetApp/trident/issues/866["问题描述#866"]()。
@@ -308,6 +327,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[deprecations]]
 === 已弃用
 
 * 从多平台映像清单中删除了内置证明框架。
@@ -315,10 +335,12 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[changes-in-23-10]]
 == 23.10中的变化
 
 
 
+[[fixes]]
 === 修复
 
 * 固定在新请求的大小小于ONTAP－NAS和ONTAP－NAS－FlexGroup存储驱动程序的卷总大小时进行卷扩展的问题link:https://github.com/NetApp/trident/issues/834["问题描述#834"^]()。
@@ -329,6 +351,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[enhancements]]
 === 增强功能
 
 
@@ -348,16 +371,19 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[changes-in-23-07-1]]
 == 23.07.1 中的变化
 
 *Kubernetes:*修复了删除守护程序集的问题，以支持零停机升级link:https://github.com/NetApp/trident/issues/740["问题描述#740"^]()。
 
 
 
+[[changes-in-23-07]]
 == 23.07中的变化
 
 
 
+[[fixes]]
 === 修复
 
 
@@ -381,6 +407,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[enhancements]]
 === 增强功能
 
 
@@ -416,6 +443,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[deprecations]]
 === 已弃用
 
 
@@ -429,6 +457,7 @@ link:./trident-protect/learn-about-trident-protect.html["了解更多关于Tride
 
 
 
+[[changes-in-23-04]]
 == 23.04中的变化
 
 
@@ -436,6 +465,7 @@ IMPORTANT: 只有启用了非正常节点关闭功能门的Kubernetes版本才�
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了在规范中指定的情况下使用IPv6 localhost进行安装的Trident操作员。
@@ -452,6 +482,7 @@ IMPORTANT: 只有启用了非正常节点关闭功能门的Kubernetes版本才�
 
 
 
+[[enhancements]]
 === 增强功能
 
 * Kubernetes：
@@ -473,16 +504,19 @@ IMPORTANT: 只有启用了非正常节点关闭功能门的Kubernetes版本才�
 
 
 
+[[deprecations]]
 === 已弃用
 
 **Kubenetes:**配置ONTAP－san和ONTAP－san－Economy驱动程序时，将不再创建后端范围的igrou()link:https://github.com/NetApp/trident/issues/758["问题描述#758"]。
 
 
 
+[[changes-in-23-01-1]]
 == 23.01.1 中的变化
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了在规范中指定的情况下使用IPv6 localhost进行安装的Trident操作员。
@@ -494,6 +528,7 @@ IMPORTANT: 只有启用了非正常节点关闭功能门的Kubernetes版本才�
 
 
 
+[[changes-in-23-01]]
 == 23.01中的变化
 
 
@@ -501,6 +536,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[fixes]]
 === 修复
 
 * Kubelnetes：添加了用于排除Pod安全策略创建的选项，以通过Helm修复Trident安装link:https://github.com/NetApp/trident/issues/794["问题783、794"^]()。
@@ -508,6 +544,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[enhancements]]
 === 增强功能
 
 .Kubernetes
@@ -530,6 +567,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[deprecations]]
 === 已弃用
 
 * Kubernetes：已将支持的最低Kubernetes更新为1.21。
@@ -538,6 +576,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[changes-in-22-10]]
 == 22.10中的变化
 
 *在升级到Trident 22.10.*之前，必须阅读以下重要信息
@@ -555,6 +594,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 ====
 
 
+[[fixes]]
 === 修复
 
 * 修复了特定于使用字段无法联机升级22.07.0 (link:https://github.com/NetApp/trident/issues/759["问题描述#759"^])创建的ONTAP后端的问题 `credentials`。
@@ -567,6 +607,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[enhancements]]
 === 增强功能
 
 * Kubernetes：
@@ -586,6 +627,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[deprecations]]
 === 已弃用
 
 * ** Kubenetes:**已将支持的最小Kubenetes更新为1.20。
@@ -595,10 +637,12 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[changes-in-22-07]]
 == 22.07中的变化
 
 
 
+[[fixes]]
 === 修复
 
 *
@@ -609,6 +653,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[enhancements]]
 === 增强功能
 
 * 从K8s.gcr.io过渡到registry.k8s.io作为CSI映像的默认注册表
@@ -620,6 +665,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[deprecations]]
 === 已弃用
 
 * ** Kubenetes:**已将支持的最小Kubenetes更新为1.19。
@@ -628,6 +674,7 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[removals]]
 === 删除
 
 * 已删除AWS CVS驱动程序(自22.04起已弃用)。
@@ -641,12 +688,14 @@ IMPORTANT: 现在、在Trident中支持Kubnetes 1.27。请先升级Trident、然
 
 
 
+[[documentation]]
 === 文档
 
 添加了一个新的link:https://docs.netapp.com/us-en/trident/trident-reference/pod-security.html["POD安全标准"](PSS)部分，详细介绍了Trident在安装时启用的权限。
 
 
 
+[[changes-in-22-04]]
 == 22.04中的变化
 
 NetApp 正在不断改进和增强其产品和服务。以下是 Trident 中的一些最新功能。有关以前的版本，请参阅早期版本的文档。
@@ -656,6 +705,7 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[fixes]]
 === 修复
 
 * 改进了 iSCSI 启动程序名称的解析。()link:https://github.com/NetApp/trident/issues/681["GitHub问题描述#681"^]
@@ -670,6 +720,7 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[enhancements]]
 === 增强功能
 
 * 现在，与 Trident 安全端点的入站连接至少需要 TLS 1.3 。()link:https://github.com/NetApp/trident/issues/698["GitHub问题描述#698"^]
@@ -680,16 +731,19 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[removals]]
 === 删除
 
 已删除 E 系列驱动程序（自 2007 年 20 月 20 日起禁用）。
 
 
 
+[[changes-in-22-01-1]]
 == 22.01.1 中的变化
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了已删除节点上的卷已取消发布的问题描述 。()link:https://github.com/NetApp/trident/issues/691["GitHub问题描述#691"]
@@ -698,10 +752,12 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[changes-in-22-01-0]]
 == 22.01.0 中的变化
 
 
 
+[[fixes]]
 === 修复
 
 * * Kubernetes ： * 增加大型集群的节点注册回退重试时间。
@@ -716,6 +772,7 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[enhancements]]
 === 增强功能
 
 * Kubernetes 增强功能：
@@ -730,12 +787,14 @@ IMPORTANT: 如果要从任何早期Trident版本升级并使用Azure NetApp File
 
 
 
+[[deprecations]]
 === 已弃用
 
 Trident REST 接口只能在 127.0.0.1 或 [ ：：： 1 ）地址处侦听和提供服务
 
 
 
+[[changes-in-21-10-1]]
 == 21.10.1中的变更
 
 
@@ -743,6 +802,7 @@ WARNING: v21.10.0 版本具有一个问题描述，在删除节点并将其重�
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了在 GCP CVS 后端导入卷导致导入失败的潜在争用情况。
@@ -752,10 +812,12 @@ WARNING: v21.10.0 版本具有一个问题描述，在删除节点并将其重�
 
 
 
+[[changes-in-21-10-0]]
 == 21.10.0 中的变化
 
 
 
+[[fixes]]
 === 修复
 
 * 修复了问题描述，其中无法将 XFS 卷的克隆挂载到与源卷相同的节点上（ GitHub 问题描述 514 ）。
@@ -776,6 +838,7 @@ WARNING: v21.10.0 版本具有一个问题描述，在删除节点并将其重�
 
 
 
+[[enhancements]]
 === 增强功能
 
 * 增加了对GCP-CVS性能卷选项的支持 `unixPermissions`。
@@ -791,6 +854,7 @@ WARNING: v21.10.0 版本具有一个问题描述，在删除节点并将其重�
 
 
 
+[[experimental-enhancements]]
 === 实验增强功能
 
 * 在驱动程序中增加了对卷复制的支持 `ontap-san`。
@@ -799,6 +863,7 @@ WARNING: v21.10.0 版本具有一个问题描述，在删除节点并将其重�
 
 
 
+[[known-issues]]
 == 已知问题
 
 已知问题用于确定可能会阻止您成功使用本产品的问题。
@@ -822,6 +887,7 @@ NOTE: 您不能在ONTAP SAN后端指定 `dataLIF`。Trident会发现所有可用
 
 
 
+[[find-more-information]]
 == 了解更多信息
 
 * https://github.com/NetApp/trident["Trident GitHub"^]

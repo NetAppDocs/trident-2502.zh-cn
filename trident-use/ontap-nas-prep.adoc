@@ -16,6 +16,7 @@ summary: 了解使用ONTAP NAS驱动程序配置ONTAP后端的要求、身份验
 
 
 
+[[requirements]]
 == 要求
 
 * 对于所有 ONTAP 后端，Trident 要求至少将一个聚合分配给 SVM。
@@ -26,6 +27,7 @@ summary: 了解使用ONTAP NAS驱动程序配置ONTAP后端的要求、身份验
 
 
 
+[[authenticate-the-ontap-backend]]
 == 对ONTAP后端进行身份验证
 
 Trident提供了两种对ONTAP后端进行身份验证的模式。
@@ -41,6 +43,7 @@ WARNING: 如果您尝试同时提供*凭据和证书*、则后端创建将失败
 
 
 
+[[enable-credential-based-authentication]]
 === 启用基于凭据的身份验证
 
 Trident需要SVM范围/集群范围的管理员的凭据才能与ONTAP后端进行通信。建议使用标准的预定义角色，如 `admin`或 `vsadmin`。这样可以确保与未来ONTAP版本的正向兼容性、这些版本可能会公开未来Trident版本要使用的功能API。可以创建自定义安全登录角色并将其用于Trident、但不建议这样做。
@@ -85,6 +88,7 @@ password: password
 
 
 
+[[enable-certificate-based-authentication]]
 === 启用基于证书的身份验证
 
 新的和现有的后端可以使用证书并与 ONTAP 后端进行通信。后端定义需要三个参数。
@@ -167,6 +171,7 @@ tridentctl update backend NasBackend -f cert-backend-updated.json -n trident
 
 
 
+[[update-authentication-methods-or-rotate-credentials]]
 === 更新身份验证方法或轮换凭据
 
 您可以更新现有后端以使用其他身份验证方法或轮换其凭据。这两种方式都适用：使用用户名 / 密码的后端可以更新为使用证书；使用证书的后端可以更新为基于用户名 / 密码的后端。为此、您必须删除现有身份验证方法并添加新的身份验证方法。然后使用包含所需执行参数的更新后端.json文件 `tridentctl update backend`。
@@ -206,6 +211,7 @@ NOTE: 轮换密码时，存储管理员必须先在 ONTAP 上更新用户的密�
 
 
 
+[[create-custom-ontap-role-for-trident]]
 === 为Trident创建自定义ONTAP角色
 
 您可以创建Privileges最低的ONTAP集群角色、这样就不必使用ONTAP管理员角色在Trident中执行操作。如果在Trident后端配置中包含用户名、则Trident将使用您创建的ONTAP集群角色来执行操作。
@@ -265,6 +271,7 @@ NOTE: 轮换密码时，存储管理员必须先在 ONTAP 上更新用户的密�
 
 
 
+[[manage-nfs-export-policies]]
 == 管理 NFS 导出策略
 
 Trident使用NFS导出策略控制对其配置的卷的访问。
@@ -277,6 +284,7 @@ Trident使用NFS导出策略控制对其配置的卷的访问。
 
 
 
+[[dynamically-manage-export-policies]]
 === 动态管理导出策略
 
 通过Trident、可以动态管理ONTAP后端的导出策略。这样，存储管理员就可以为工作节点 IP 指定允许的地址空间，而不是手动定义显式规则。它大大简化了导出策略管理；修改导出策略不再需要手动干预存储集群。此外、这还有助于将对存储集群的访问限制为仅限正在挂载卷且IP位于指定范围内的工作节点访问、从而支持精细的自动化管理。
@@ -367,6 +375,7 @@ NOTE: 删除具有自动管理导出策略的后端将删除动态创建的导�
 
 
 
+[[prepare-to-provision-smb-volumes]]
 == 准备配置SMB卷
 
 只需稍作准备、即可使用驱动程序配置SMB卷 `ontap-nas`。

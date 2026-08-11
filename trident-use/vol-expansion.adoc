@@ -16,6 +16,7 @@ Trident使Kubnetes用户能够在创建卷后对其进行扩展。查找有关�
 
 
 
+[[expand-an-iscsi-volume]]
 == 展开 iSCSI 卷
 
 您可以使用 CSI 配置程序扩展 iSCSI 永久性卷（ PV ）。
@@ -25,6 +26,7 @@ NOTE: iSCSI卷扩展受、、 `ontap-san-economy` `solidfire-san`驱动程序支
 
 
 
+[[step-1-configure-the-storageclass-to-support-volume-expansion]]
 === 第 1 步：配置 StorageClass 以支持卷扩展
 
 编辑StorageClass定义以将字段设置 `allowVolumeExpansion`为 `true`。
@@ -48,6 +50,7 @@ allowVolumeExpansion: True
 
 
 
+[[step-2-create-a-pvc-with-the-storageclass-you-created]]
 === 第 2 步：使用您创建的 StorageClass 创建 PVC
 
 编辑PVC定义并更新以反映新需要的 `spec.resources.requests.storage`大小、该大小必须大于原始大小。
@@ -84,6 +87,7 @@ pvc-8a814d62-bd58-4253-b0d1-82f2885db671   1Gi        RWO            Delete     
 ----
 
 
+[[step-3-define-a-pod-that-attaches-the-pvc]]
 === 第 3 步：定义连接 PVC 的 POD
 
 将PV连接到POD以调整大小。调整 iSCSI PV 大小时，有两种情况：
@@ -118,6 +122,7 @@ Mounted By:    ubuntu-pod
 ----
 
 
+[[step-4-expand-the-pv]]
 === 第4步：展开PV
 
 要将已创建的PV从1Gi调整为2Gi、请编辑PVC定义并将更新 `spec.resources.requests.storage`为2Gi。
@@ -157,6 +162,7 @@ spec:
 ----
 
 
+[[step-5-validate-the-expansion]]
 === 第5步：验证扩展
 
 您可以通过检查PVC、PV和Trident卷的大小来验证扩展是否正常：
@@ -178,6 +184,7 @@ tridentctl get volumes -n trident
 ----
 
 
+[[expand-an-fc-volume]]
 == 展开 FC 卷
 
 您可以使用CSI配置程序扩展FC持久卷(PV)。
@@ -187,6 +194,7 @@ NOTE: 驱动程序支持FC卷扩展 `ontap-san`、并且需要Kubernetes 1.16及
 
 
 
+[[step-1-configure-the-storageclass-to-support-volume-expansion]]
 === 第 1 步：配置 StorageClass 以支持卷扩展
 
 编辑StorageClass定义以将字段设置 `allowVolumeExpansion`为 `true`。
@@ -210,6 +218,7 @@ allowVolumeExpansion: True
 
 
 
+[[step-2-create-a-pvc-with-the-storageclass-you-created]]
 === 第 2 步：使用您创建的 StorageClass 创建 PVC
 
 编辑PVC定义并更新以反映新需要的 `spec.resources.requests.storage`大小、该大小必须大于原始大小。
@@ -246,6 +255,7 @@ pvc-8a814d62-bd58-4253-b0d1-82f2885db671   1Gi        RWO            Delete     
 ----
 
 
+[[step-3-define-a-pod-that-attaches-the-pvc]]
 === 第 3 步：定义连接 PVC 的 POD
 
 将PV连接到POD以调整大小。调整FC PV大小有两种情形：
@@ -280,6 +290,7 @@ Mounted By:    ubuntu-pod
 ----
 
 
+[[step-4-expand-the-pv]]
 === 第4步：展开PV
 
 要将已创建的PV从1Gi调整为2Gi、请编辑PVC定义并将更新 `spec.resources.requests.storage`为2Gi。
@@ -319,6 +330,7 @@ spec:
 ----
 
 
+[[step-5-validate-the-expansion]]
 === 第5步：验证扩展
 
 您可以通过检查PVC、PV和Trident卷的大小来验证扩展是否正常：
@@ -340,12 +352,14 @@ tridentctl get volumes -n trident
 ----
 
 
+[[expand-an-nfs-volume]]
 == 展开 NFS 卷
 
 Trident支持对、 `ontap-nas-economy`、 `ontap-nas-flexgroup`、 `gcp-cvs`和 `azure-netapp-files`后端配置的NFS PV进行卷扩展 `ontap-nas`。
 
 
 
+[[step-1-configure-the-storageclass-to-support-volume-expansion]]
 === 第 1 步：配置 StorageClass 以支持卷扩展
 
 要调整NFS PV的大小，管理员首先需要通过将字段设置为来将存储类配置为 `true`允许卷扩展 `allowVolumeExpansion`：
@@ -369,6 +383,7 @@ allowVolumeExpansion: true
 
 
 
+[[step-2-create-a-pvc-with-the-storageclass-you-created]]
 === 第 2 步：使用您创建的 StorageClass 创建 PVC
 
 [listing]
@@ -403,6 +418,7 @@ pvc-08f3d561-b199-11e9-8d9f-5254004dfdb7   20Mi       RWO            Delete     
 ----
 
 
+[[step-3-expand-the-pv]]
 === 第3步：展开PV
 
 要将新创建的20MiB PV调整为1GiB、请编辑PVC并设置 `spec.resources.requests.storage`为1GiB：
@@ -442,6 +458,7 @@ spec:
 ----
 
 
+[[step-4-validate-the-expansion]]
 === 第4步：验证扩展
 
 您可以通过检查PVC、PV和Trident卷的大小来验证调整大小是否正常：

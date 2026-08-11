@@ -21,6 +21,7 @@ summary: 适用于Docker的Trident可与适用于NetApp存储平台的Docker生�
 
 
 
+[[docker-managed-plugin-method-version-1-1317-03-and-later]]
 == Docker 托管插件方法（ 1.13/17.03 及更高版本）
 
 .开始之前
@@ -121,6 +122,7 @@ docker volume rm firstVolume
 
 
 
+[[traditional-method-version-1-12-or-earlier]]
 == 传统方法（ 1.12 或更早版本）
 
 .开始之前
@@ -231,6 +233,7 @@ docker volume rm trident_2
 
 
 
+[[start-trident-at-system-startup]]
 == 在系统启动时启动Trident
 
 有关基于systemd的系统的单元文件示例、请参见 `contrib/trident.service.example`Git repo。要对RHEL使用此文件、请执行以下操作：

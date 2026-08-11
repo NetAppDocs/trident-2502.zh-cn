@@ -16,6 +16,7 @@ summary: 您可以使用Helm部署Trident操作员并安装Trident。此过程�
 
 
 
+[[critical-information-about-trident-25-02]]
 == 有关Trident 25.02的重要信息
 
 *您必须阅读以下有关Trident的重要信息。*
@@ -36,14 +37,15 @@ summary: 您可以使用Helm部署Trident操作员并安装Trident。此过程�
 ====
 
 
+[[deploy-the-trident-operator-and-install-trident-using-helm]]
 == 部署Trident操作员并使用Helm安装Trident
 
 使用Trident、link:https://artifacthub.io/packages/helm/netapp-trident/trident-operator["Helm图表"^]您可以一步部署Trident操作员并安装Trident。
 
-请检查 link:trident-install/kubernetes-deploy.html["安装概述"] 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。
+请检查 link:kubernetes-deploy.html["安装概述"] 以确保您已满足安装先决条件，并为您的环境选择了正确的安装选项。
 
 .开始之前
-除了 link:trident-install/kubernetes-deploy.html#before-you-deploy["部署前提条件"] 之外，您还需要 link:https://v3.helm.sh/["Helm 版本 3"^]。
+除了 link:trident-install/kubernetes-deploy.html#before-you-begin["部署前提条件"] 之外，您还需要 link:https://v3.helm.sh/["Helm 版本 3"^]。
 
 
 IMPORTANT: 在私有存储库中安装Trident时、如果 `imageRegistry`使用交换机指定存储库位置、请勿在存储库路径中使用 `/netapp/`。
@@ -84,6 +86,7 @@ NOTE: 如果已为Trident创建命名空间、则 `--create-namespace`参数不�
 
 
 
+[[pass-configuration-data-during-install]]
 == 在安装期间传递配置数据
 
 在安装期间，可以通过两种方式传递配置数据：
@@ -116,6 +119,7 @@ helm install <name> netapp-trident/trident-operator --version 100.2502.0  --crea
 ----
 
 
+[[configuration-options]]
 == 配置选项
 
 此表和 `values.yaml`文件(Helm图表的一部分)提供了密钥列表及其默认值。

@@ -16,10 +16,12 @@ summary: '通过将Trident与Amazon FSx for NetApp ONTAP结合使用、您可以
 
 
 
+[[create-a-storage-class]]
 == 创建存储类。
 
 
 
+[[configure-a-kubernetes-storageclass-object]]
 === 配置Kubnetes StorageClass对象
 
  https://kubernetes.io/docs/concepts/storage/storage-classes/["Kubnetes StorageClass对象"^]将Trident标识为用于该类的配置程序、并指示Trident如何配置卷。例如：
@@ -58,6 +60,7 @@ mountOptions:
 
 
 
+[[create-a-storage-class]]
 === 创建存储类。
 
 .步骤
@@ -83,6 +86,7 @@ basic-csi    csi.trident.netapp.io   15h
 ----
 
 
+[[create-the-pvc]]
 == 创建PVC
 
 A https://kubernetes.io/docs/concepts/storage/persistent-volumes["_PersigentVolumeClaim_"^] (PVC)是指请求访问集群上的永久卷。
@@ -93,6 +97,7 @@ A https://kubernetes.io/docs/concepts/storage/persistent-volumes["_PersigentVolu
 
 
 
+[[sample-manifests]]
 === 示例清单
 
 .PerfsentVolume示例清单
@@ -160,6 +165,7 @@ storageClassName: protection-gold
 ====
 
 
+[[create-the-pv-and-pvc]]
 === 创建PV和PVC
 
 .步骤
@@ -186,6 +192,7 @@ pvc-storage Bound  pv-name 2Gi      RWO                       5m
 
 
 
+[[trident-attributes]]
 == Trident属性
 
 这些参数决定了应使用哪些 Trident 管理的存储池来配置给定类型的卷。

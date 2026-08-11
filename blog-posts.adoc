@@ -16,6 +16,7 @@ summary: 您可以找到一些很棒的NetApp Trident和Trident Protect 博客�
 
 
 
+[[trident-blogs]]
 == Trident博客
 
 * 2025年3月5日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["解锁无缝iSCSI存储集成：适用于AWS的ROSA集群上的FSxN指南"^]
@@ -24,6 +25,7 @@ summary: 您可以找到一些很棒的NetApp Trident和Trident Protect 博客�
 
 
 
+[[trident-protect-blogs]]
 == Trident Protect博客
 
 * 2025年3月13日：link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["为OpenShift虚拟化VM执行崩溃状态一致的备份和还原操作"^]

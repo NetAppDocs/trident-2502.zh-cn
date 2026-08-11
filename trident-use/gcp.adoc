@@ -16,6 +16,7 @@ summary: 了解如何使用提供的示例配置将适用于Google Cloud的Cloud
 
 
 
+[[google-cloud-driver-details]]
 == Google Cloud驱动程序详细信息
 
 Trident提供了 `gcp-cvs`用于与集群通信的驱动程序。支持的访问模式包括：_ReadWriteOnce_(RWO)、_ReadOnlyMany_(ROX)、_ReadWriteMany_(rwx)、_ReadWriteOncePod_(RWOP)。
@@ -37,6 +38,7 @@ Rwo、ROX、rwx、RWOP
 |===
 
 
+[[learn-about-trident-support-for-cloud-volumes-service-for-google-cloud]]
 == 了解Trident对适用于Google Cloud的Cloud Volumes Service的支持
 
 Trident 可以通过以下两种方式之一创建 Cloud Volumes Service 卷 link:https://docs.cloud.google.com/netapp/volumes/docs/discover/overview["服务类型"^]：
@@ -67,6 +69,7 @@ Trident 可以通过以下两种方式之一创建 Cloud Volumes Service 卷 lin
 
 
 
+[[backend-configuration-options]]
 == 后端配置选项
 
 每个后端都会在一个 Google Cloud 区域中配置卷。要在其他区域创建卷，您可以定义其他后端。
@@ -129,6 +132,7 @@ Trident 可以通过以下两种方式之一创建 Cloud Volumes Service 卷 lin
 |===
 
 
+[[volume-provisioning-options]]
 == 卷配置选项
 
 您可以在配置文件的部分中控制默认卷配置 `defaults`。
@@ -151,6 +155,7 @@ Trident 可以通过以下两种方式之一创建 Cloud Volumes Service 卷 lin
 |===
 
 
+[[cvs-performance-service-type-examples]]
 == CVS-Performance服务类型示例
 
 以下示例提供了CVS-Performance服务类型的示例配置。
@@ -287,6 +292,7 @@ storage:
 ====
 
 
+[[storage-class-definitions]]
 === 存储类定义
 
 以下StorageClass定义适用于虚拟池配置示例。使用 `parameters.selector`，您可以为每个StorageClass指定用于托管卷的虚拟池。卷将在选定池中定义各个方面。
@@ -359,6 +365,7 @@ allowVolumeExpansion: true
 
 
 
+[[cvs-service-type-examples]]
 == CVS服务类型示例
 
 以下示例提供了CVS服务类型的示例配置。
@@ -431,6 +438,7 @@ serviceLevel: Standardsw
 ====
 
 
+[[whats-next]]
 == 下一步是什么？
 
 创建后端配置文件后，运行以下命令：

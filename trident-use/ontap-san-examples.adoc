@@ -16,6 +16,7 @@ summary: 了解如何在Trident安装中创建和使用ONTAP SAN驱动程序。�
 
 
 
+[[backend-configuration-options]]
 == 后端配置选项
 
 有关后端配置选项，请参见下表：
@@ -144,6 +145,7 @@ NOTE: 在SVM中更新聚合后、该聚合将在Trident中自动更新、方法�
 |===
 
 
+[[recommendations-for-using-formatoptions]]
 === 有关使用formatOptions的建议
 
 Trident建议使用以下选项来加快格式化过程：
@@ -155,6 +157,7 @@ Trident建议使用以下选项来加快格式化过程：
 
 
 
+[[backend-configuration-options-for-provisioning-volumes]]
 == 用于配置卷的后端配置选项
 
 您可以在配置部分使用这些选项控制默认配置 `defaults`。有关示例，请参见以下配置示例。
@@ -198,6 +201,7 @@ Trident建议使用以下选项来加快格式化过程：
 |===
 
 
+[[volume-provisioning-examples]]
 === 卷配置示例
 
 下面是一个定义了默认值的示例：
@@ -243,6 +247,7 @@ image::../media/vol-show-san.png[显示了 volume show 命令的输出。]
 
 
 
+[[minimal-configuration-examples]]
 == 最低配置示例
 
 以下示例显示了将大多数参数保留为默认值的基本配置。这是定义后端的最简单方法。
@@ -443,6 +448,7 @@ defaults:
 ====
 
 
+[[examples-of-backends-with-virtual-pools]]
 == 虚拟池后端示例
 
 在这些示例后端定义文件中、会为所有存储池设置特定默认值、例如 `spaceReserve`、在none、 `spaceAllocation`在false和 `encryption`在false。虚拟池在存储部分中进行定义。
@@ -587,6 +593,7 @@ storage:
 ====
 
 
+[[map-backends-to-storageclasses]]
 == 将后端映射到 StorageClasses
 
 以下StorageClass定义参见<<虚拟池后端示例>>。通过 `parameters.selector`字段、每个StorageClass都会调用可用于托管卷的虚拟池。卷将在选定虚拟池中定义各个方面。
