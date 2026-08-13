@@ -36,6 +36,9 @@ summary: 在安装Trident之前、您应查看这些常规系统要求。特定�
 =====
 ====
 
+NOTE: Trident 继续支持与 link:https://access.redhat.com/support/policy/updates/openshift["Red Hat Extended Update Support (EUS) 版本生命周期"] 保持一致的旧 OpenShift 版本，即使它们依赖于不再正式支持上游的 Kubernetes 版本。在这种情况下安装 Trident 时，您可以安全地忽略有关 Kubernetes 版本的任何警告消息。
+
+
 
 [[supported-frontends-orchestrators]]
 == 支持的前端（编排程序）
@@ -43,16 +46,16 @@ summary: 在安装Trident之前、您应查看这些常规系统要求。特定�
 Trident支持多个容器引擎和流程编排程序、其中包括：
 
 * Anthos On－Prem (VMware)和Anthos on Bare metal 1.16
-* Kubbernetes 1.26 - 1.32
-* OpenShift 4.13 - 4.18
+* Kubernetes 1.25 - 1.32
+* OpenShift 4.12 - 4.18
 * R润 彻Kubernetes Engine 2 (RKE2) v1.26.7+rke2r1、v1.28.5+rke2r1
 
 
 以下版本支持 Trident 操作符：
 
 * Anthos On－Prem (VMware)和Anthos on Bare metal 1.16
-* Kubbernetes 1.26 - 1.32
-* OpenShift 4.13-4.18
+* Kubernetes 1.25 - 1.32
+* OpenShift 4.12- 4.18
 * R润 彻Kubernetes Engine 2 (RKE2) v1.26.7+rke2r1、v1.28.5+rke2r1
 
 
@@ -119,56 +122,56 @@ Trident支持以下用于KubeVirt和OpenShift虚拟化的ONTAP驱动程序：
 
 
 | Trident  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | 卷快照  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | 卷快照中的 PVC  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | iSCSI PV 调整大小  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | ONTAP 双向 CHAP  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | 动态导出策略  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | Trident 运算符  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
 
 
 | CSI 拓扑  a| 
-1.26 - 1.32
+1.25 - 1.32
  a| 
 否
 
@@ -233,7 +236,7 @@ link:../trident-reference/ports.html["Trident端口"]
 | Kubernetes版本 | 容器映像 
 
 
-| v1.26.0、v1.27.0、v1.28.0、v1.29.0、v1.30.0、 v1.31.0、v1.32.0  a| 
+| v1.25.0、v1.26.0、v1.27.0、v1.28.0、v1.29.0、v1.30.0、v1.31.0、v1.32.0  a| 
 * dDocker。io/NetApp/trdent：25.02.0
 * docer.io/NetApp/trdent-autostsupport：25.02
 * 注册表.k8s.io/sig-storage/CsI-置 配置程序：v5.2.0
